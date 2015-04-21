@@ -7,8 +7,11 @@
 
   "background": {
     "scripts": [
-      "libs/rpc/drivers/extension-background-driver.js",
+      "libs/rpc/request.js",
+      "libs/rpc/response.js",
       "libs/rpc/connection.js",
+      "libs/rpc/drivers/extension-background-driver.js",
+      "libs/rpc/protocols/object-protocol.js",
       "background/app/activation.js",
       "background/app/commands.js"
     ],
@@ -38,8 +41,11 @@
       "matches": ["https://github.com/*"],
       "css": [],
       "js": [
-        "libs/rpc/drivers/extension-content-driver.js",
+        "libs/rpc/request.js",
+        "libs/rpc/response.js",
         "libs/rpc/connection.js",
+        "libs/rpc/drivers/extension-content-driver.js",
+        "libs/rpc/protocols/object-protocol.js",
         "content/app/main.js"
       ]
     }
