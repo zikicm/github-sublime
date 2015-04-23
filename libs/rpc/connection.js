@@ -1,12 +1,19 @@
 (function (window) {
 
+var Request = window.ghs.libs.rpc.Request;
+var Response = window.ghs.libs.rpc.Response;
+
 /**
  * Connection constructor
  * @param {AbstractDriver} 		driver
  */
-var Connection = function (driver) {
+var Connection = function (driver, protocol) {
 	this._driver = driver;
-	this._listeners = {};
+	this._protocol = protocol;
+
+	this._callbacks = {};
+	this._promises = {};
+
 	this._driver.onRecieve(this._onRecieve.bind(this));
 };
 
@@ -17,11 +24,27 @@ var Connection = function (driver) {
  * @return {Promise}
  */
 Connection.prototype.callAsync = function (method) {
-	var request = {
-		method : method,
-		data : Array.prototype.slice(arguments, 1),
-	};
-	return this._driver.send(request);
+	// Create request
+	var request = Request.createRequest(
+		method,
+		Array.prototype.slice(arguments, 1)
+	);
+
+	// Make promise for request
+	var promiseData = {};
+	promiseData.promise = new Promise(function (resolve, reject) {
+		promiseData.resolve = resolve;
+		promiseData.reject = reject;
+	});
+
+	// Save promise data
+	this._promises[request.id] = promiseData;
+
+	// Send request
+	this._send(request);
+
+	// Return promise
+	return promiseData.promise;
 };
 
 /**
@@ -30,11 +53,14 @@ Connection.prototype.callAsync = function (method) {
  * @param {[Object[,Object[,...]]]} 	arguments
  */
 Connection.prototype.notify = function (method) {
-	var request = {
-		method : method,
-		data : Array.prototype.slice(arguments, 1),
-	};
-	this._driver.send(request);
+	// Create notification
+	var notification = Request.createNotification(
+		method,
+		Array.prototype.slice(arguments, 1)
+	);
+
+	// Send notification
+	this._send(notification);
 };
 
 /**
@@ -43,18 +69,90 @@ Connection.prototype.notify = function (method) {
  * @param  {Function} callback
  */
 Connection.prototype.on = function (method, callback) {
-	this._listeners[method] = callback;
+	if (this._callbacks[method]) {
+		throw new Error("Method already registered: " + method);
+	}
+
+	this._callbacks[method] = callback;
+};
+
+Connection.prototype._send = function (obj) {
+	if (obj) {
+		var msg = this._protocol.serialize(obj);
+		this._driver.send(msg);
+	}
 };
 
 /**
- * Handler for request sent from remote app
- * @param  {Object} request
- * @return {Object}
+ * Handler for messages sent from remote app
+ * @param  {Object} msg
  */
-Connection.prototype._onRecieve = function (request) {
-	var callback = this._listeners[request.method];
+Connection.prototype._onRecieve = function (msg) {
+	var obj = this._protocol.parse(msg);
+
+	if (obj instanceof Request) {
+		this._handleRequest(obj);
+	}
+	else if (obj instanceof Response) {
+		this._handleResponse(obj);
+	}
+};
+
+/**
+ * Handle request from remote app
+ * @param  {Resuest} req
+ */
+Connection.prototype._handleRequest = function (req) {
+	var response = null;
+
+	var callback = this._callbacks[req.method];
 	if (callback) {
-		return callback(request.data);
+		// Handle notification
+		if (req.isNotification) {
+			callback.apply(null, req.args);
+		}
+		// Handle request
+		else {
+			// Call method and return response
+			try {
+				var result = callback.apply(null, req.args);
+				response = Response.createResponse(req.id, result);
+			}
+			// Return back error
+			catch (err) {
+				response = Response.createError(req.id, err.toString());
+			}
+		}
+	}
+	// Called method does not exist
+	else {
+		response = Response.createError(req.id, "Method does not exist: " + req.method);
+	}
+
+	// Send response if exists
+	this._send(response);
+};
+
+/**
+ * Handle response from remote app
+ * @param  {Response} resp
+ */
+Connection.prototype._handleResponse = function (resp) {
+	var promiseData = this._promises[resp.id];
+
+	if (promiseData) {
+		// Return error
+		if (resp.isError) {
+			promiseData.reject(resp.data);
+		}
+		// Return method result
+		else {
+			promiseData.resolve(resp.data);
+		}
+	}
+	// No waiting promise
+	else {
+		throw Error("Missing response promise for: " + resp);
 	}
 };
 
