@@ -11,6 +11,19 @@ var Request = function () {
 };
 
 /**
+ * String representation for printing.
+ * @return {String}
+ */
+Request.prototype.toString = function () {
+	return 'Request {' +
+		' id : ' + this.id +
+		' method : ' + this.method +
+		' args : ' + this.args +
+		' isNotification : ' + this.isNotification +
+		' }';
+};
+
+/**
  * Request id grneration counter.
  * @type {Number}
  */

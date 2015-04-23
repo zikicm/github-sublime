@@ -31,20 +31,20 @@ Connection.prototype.callAsync = function (method) {
 	);
 
 	// Make promise for request
-	var promise = {};
-	promise.promise = new Promise(function (resolve, reject) {
-		promise.resolve = resolve;
-		promise.reject = reject;
+	var promiseData = {};
+	promiseData.promise = new Promise(function (resolve, reject) {
+		promiseData.resolve = resolve;
+		promiseData.reject = reject;
 	});
 
-	// Save promise
-	this._promises[request.id] = promise;
+	// Save promise data
+	this._promises[request.id] = promiseData;
 
 	// Send request
 	this._send(request);
 
 	// Return promise
-	return promise.promise;
+	return promiseData.promise;
 };
 
 /**
@@ -138,17 +138,21 @@ Connection.prototype._handleRequest = function (req) {
  * @param  {Response} resp
  */
 Connection.prototype._handleResponse = function (resp) {
-	var promise = this._promises[resp.id];
+	var promiseData = this._promises[resp.id];
 
-	if (promise) {
+	if (promiseData) {
 		// Return error
 		if (resp.isError) {
-			promise.reject(resp.data);
+			promiseData.reject(resp.data);
 		}
 		// Return method result
 		else {
-			promise.resolve(resp.data);
+			promiseData.resolve(resp.data);
 		}
+	}
+	// No waiting promise
+	else {
+		throw Error("Missing response promise for: " + resp);
 	}
 };
 

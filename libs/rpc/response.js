@@ -10,6 +10,18 @@ var Response = function () {
 };
 
 /**
+ * String representation for printing.
+ * @return {String}
+ */
+Response.prototype.toString = function () {
+	return 'Response {' +
+		' id : ' + this.id +
+		' data : ' + this.data +
+		' isError : ' + this.isError +
+		' }';
+};
+
+/**
  * Create response helper.
  * @param  {Number}  method
  * @param  {Object}  args
