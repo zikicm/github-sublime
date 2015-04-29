@@ -72,9 +72,11 @@
         "content/app/events/event.js",
         "content/app/events/event-dispatcher.js",
 
+        "content/app/ui/popups/abstract-popup.js",
         "content/app/ui/popups/goto-line-popup.js",
         "content/app/ui/popup-manager.js",
 
+        "content/app/commands/abstract-command.js",
         "content/app/commands/goto-line-command.js",
         "content/app/commands/command-manager.js",
 

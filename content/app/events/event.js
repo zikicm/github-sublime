@@ -3,39 +3,82 @@
 // imports
 
 /**
- * Event constructor.
- * @param {String} type
- * @param {Object} data
+ * Event class used by dispatcher.
  */
-var Event = function (type, data) {
-	this.type = type;
-	this.data = data;
-	this.target = null;
-};
+var Event = Class({
 
-/**
- * Close event type.
- * @type {String}
- */
-Event.CLOSE = 'close';
+	$statics : {
 
-/**
- * Submit event type.
- * @type {String}
- */
-Event.SUBMIT = 'submit';
+		/**
+		 * Close event type.
+		 * @type {String}
+		 */
+		CLOSE : 'close',
 
-/**
- * Complete event type.
- * @type {String}
- */
-Event.COMPLETE = 'complete';
+		/**
+		 * Submit event type.
+		 * @type {String}
+		 */
+		SUBMIT : 'submit',
 
-/**
- * Cancel event type.
- * @type {String}
- */
-Event.CANCEL = 'cancel';
+		/**
+		 * Complete event type.
+		 * @type {String}
+		 */
+		COMPLETE : 'complete',
+
+		/**
+		 * Cancel event type.
+		 * @type {String}
+		 */
+		CANCEL : 'cancel',
+	},
+
+	/**
+	 * Event constructor.
+	 * @param {String} type
+	 * @param {Object} data
+	 */
+	constructor : function (type, data) {
+		this._type = type;
+		this._data = data;
+		this._target = null;
+	},
+
+	/**
+	 * Event type.
+	 * @type {String}
+	 */
+	type : {
+		get : function () {
+			return this._type;
+		}
+	},
+
+	/**
+	 * Data passed with event from dispatcher.
+	 * @type {Object}
+	 */
+	data : {
+		get : function () {
+			return this._data;
+		}
+	},
+
+	/**
+	 * Event sender. In most cases it will be subclass of EventDispatcher.
+	 * @type {Object}
+	 */
+	target : {
+		get : function () {
+			return this._target;
+		},
+		set : function (value) {
+			this._target = value;
+		},
+	},
+
+});
 
 // export module
 var ghs = window.ghs = window.ghs || {};

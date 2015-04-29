@@ -4,89 +4,93 @@
 var KeyCodes = window.ghs.shared.constants.KeyCodes;
 var Event = window.ghs.content.app.events.Event;
 var EventDispatcher = window.ghs.content.app.events.EventDispatcher;
+var AbstractPopup = window.ghs.content.app.ui.popups.AbstractPopup;
 
 /**
- * GotoLinePopup constructor.
+ * Popup for getting line number from user.
  */
-var GotoLinePopup = function () {
-	this.view = null;
-	this._input = null;
-	this._onBlurHandler = this._onBlur.bind(this);
-	this._onKeyUpHandler = this._onKeyUp.bind(this);
+var GotoLinePopup = Class(AbstractPopup, {
 
-	this._init();
-};
+	/**
+	 * GotoLinePopup constructor.
+	 */
+	constructor : function () {
+		GotoLinePopup.$super.call(this);
 
-// Temporary inheritence
-// TODO: change when proper class library is introduced in project
-GotoLinePopup.prototype = new EventDispatcher();
+		this._input = null;
+		this._onBlurHandler = this._onBlur.bind(this);
+		this._onKeyUpHandler = this._onKeyUp.bind(this);
 
-/**
- * Init popup.
- */
-GotoLinePopup.prototype._init = function () {
-	this.view = document.createElement('div');
-	this._input = document.createElement('input');
-	this._input.type = "text";
-	this.view.appendChild(this._input);
-};
+		this._init();
+	},
 
-/**
- * Override. Method called when popup is shown.
- */
-GotoLinePopup.prototype.onShow = function () {
-	this.view.addEventListener('focusout', this._onBlurHandler);
-	this._input.addEventListener('keyup', this._onKeyUpHandler);
-	this._input.focus();
-};
+	/**
+	 * Init popup.
+	 */
+	_init : function () {
+		this._input = document.createElement('input');
+		this._input.type = "text";
+		this.view.appendChild(this._input);
+	},
 
-/**
- * Override. Method called when popup is hidden.
- */
-GotoLinePopup.prototype.onHide = function () {
-	this.view.removeEventListener('focusout', this._onBlurHandler);
-	this._input.removeEventListener('keyup', this._onKeyUpHandler);
-};
+	/**
+	 * Override. Method called when popup is shown.
+	 */
+	onShow : function () {
+		this.view.addEventListener('focusout', this._onBlurHandler);
+		this._input.addEventListener('keyup', this._onKeyUpHandler);
+		this._input.focus();
+	},
 
-/**
- * Focusout or blur event listener.
- * @param  {Object} event
- */
-GotoLinePopup.prototype._onBlur = function (event) {
-	this._triggerClose();
-};
+	/**
+	 * Override. Method called when popup is hidden.
+	 */
+	onHide : function () {
+		this.view.removeEventListener('focusout', this._onBlurHandler);
+		this._input.removeEventListener('keyup', this._onKeyUpHandler);
+	},
 
-/**
- * Keyup event listener.
- * @param  {Object} event
- */
-GotoLinePopup.prototype._onKeyUp = function (event) {
-	switch (event.keyCode) {
-		case KeyCodes.ENTER:
-			this._triggerSubmit();
-			break;
-		case KeyCodes.ESC:
-			this._triggerClose();
-			break;
-	}
-};
+	/**
+	 * Focusout or blur event listener.
+	 * @param  {Object} event
+	 */
+	_onBlur : function (event) {
+		this._triggerClose();
+	},
 
-/**
- * Trigger close event.
- */
-GotoLinePopup.prototype._triggerClose = function () {
-	var event = new Event(Event.CLOSE);
-	this.trigger(event);
-};
+	/**
+	 * Keyup event listener.
+	 * @param  {Object} event
+	 */
+	_onKeyUp : function (event) {
+		switch (event.keyCode) {
+			case KeyCodes.ENTER:
+				this._triggerSubmit();
+				break;
+			case KeyCodes.ESC:
+				this._triggerClose();
+				break;
+		}
+	},
 
-/**
- * Trigger submit event.
- */
-GotoLinePopup.prototype._triggerSubmit = function () {
-	var value = parseInt(this._input.value);
-	var event = new Event(Event.SUBMIT, value);
-	this.trigger(event);
-};
+	/**
+	 * Trigger close event.
+	 */
+	_triggerClose : function () {
+		var event = new Event(Event.CLOSE);
+		this.trigger(event);
+	},
+
+	/**
+	 * Trigger submit event.
+	 */
+	_triggerSubmit : function () {
+		var value = parseInt(this._input.value);
+		var event = new Event(Event.SUBMIT, value);
+		this.trigger(event);
+	},
+
+});
 
 // export module
 var ghs = window.ghs = window.ghs || {};

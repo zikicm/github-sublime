@@ -3,71 +3,82 @@
 // imports
 
 /**
- * PopupManager constructor.
- * @param {DOMElement} container
+ * Manager that enables popup showing and hiding.
  */
-var PopupManager = function (container) {
-	this._container = container;
-	this._popupInfo = null;
-};
+var PopupManager = Class({
 
-/**
- * Reference to PopupManager that uses body for content.
- * @type {PopupManager}
- */
-PopupManager._global = null;
+	$statics : {
 
-/**
- * Get reference to PopupManager that uses body for content.
- * @return {PopupManager}
- */
-PopupManager.global = function () {
-	if (!PopupManager._global) {
-		PopupManager._global = new PopupManager(window.document.body);
-	}
-	return PopupManager._global;
-};
+		/**
+		 * Reference to PopupManager that uses body for content.
+		 * @type {PopupManager}
+		 */
+		_global : null,
 
-/**
- * Show popup.
- * @param  {AbstractPopup} popup
- */
-PopupManager.prototype.show = function (popup) {
-	this.hide();
+		/**
+		 * Get reference to PopupManager that uses body for content.
+		 * @return {PopupManager}
+		 */
+		global : function () {
+			if (!PopupManager._global) {
+				PopupManager._global = new PopupManager(window.document.body);
+			}
+			return PopupManager._global;
+		},
 
-	var root = document.createElement("div");
-	root.className = "popup-root";
-	this._container.appendChild(root);
+	},
 
-	var vertical = document.createElement("div");
-	vertical.className = "popup-vertical-position";
-	root.appendChild(vertical);
-
-	var horizontal = document.createElement("div");
-	horizontal.className = "popup-horizontal-position";
-	vertical.appendChild(horizontal);
-
-	horizontal.appendChild(popup.view);
-
-	this._popupInfo = {
-		rootView : root,
-		popup : popup,
-	};
-
-	popup.onShow();
-};
-
-/**
- * Hide popup. If popup is not specified hide active popup.
- * @param  {AbstractPopup} popup
- */
-PopupManager.prototype.hide = function (popup) {
-	if (this._popupInfo && (!popup || this._popupInfo.popup === popup)) {
-		this._popupInfo.popup.onHide();
-		this._container.removeChild(this._popupInfo.rootView);
+	/**
+	 * PopupManager constructor.
+	 * @param {DOMElement} container
+	 */
+	constructor : function (container) {
+		this._container = container;
 		this._popupInfo = null;
-	}
-};
+	},
+
+	/**
+	 * Show popup.
+	 * @param  {AbstractPopup} popup
+	 */
+	show : function (popup) {
+		this.hide();
+
+		var root = document.createElement("div");
+		root.className = "popup-root";
+		this._container.appendChild(root);
+
+		var vertical = document.createElement("div");
+		vertical.className = "popup-vertical-position";
+		root.appendChild(vertical);
+
+		var horizontal = document.createElement("div");
+		horizontal.className = "popup-horizontal-position";
+		vertical.appendChild(horizontal);
+
+		horizontal.appendChild(popup.view);
+
+		this._popupInfo = {
+			rootView : root,
+			popup : popup,
+		};
+
+		popup.onShow();
+	},
+
+	/**
+	 * Hide popup. If popup is not specified hide active popup.
+	 * @param  {AbstractPopup} popup
+	 */
+	hide : function (popup) {
+		if (this._popupInfo && (!popup || this._popupInfo.popup === popup)) {
+			this._popupInfo.popup.onHide();
+			this._container.removeChild(this._popupInfo.rootView);
+			this._popupInfo = null;
+		}
+	},
+
+});
 
 // export module
 var ghs = window.ghs = window.ghs || {};

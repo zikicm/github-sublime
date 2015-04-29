@@ -3,32 +3,39 @@
 // imports
 
 /**
- * CommandManager constructor.
- * This class ensures that only one command is active at the moment.
+ * Manager that ensures that only one command is active at the moment.
  */
-var CommandManager = function () {
-	this._command = null;
-};
+var CommandManager = Class({
 
-/**
- * Run specific command.
- * @param  {AbstractCommand} command
- */
-CommandManager.prototype.runCommand = function (command) {
-	this.cancelCommand();
-	this._command = command;
-	this._command.run();
-};
-
-/**
- * Cancel active command.
- */
-CommandManager.prototype.cancelCommand = function () {
-	if (this._command) {
-		this._command.cancel();
+	/**
+	 * CommandManager constructor.
+	 * This class ensures that only one command is active at the moment.
+	 */
+	constructor : function () {
 		this._command = null;
-	}
-};
+	},
+
+	/**
+	 * Run specific command.
+	 * @param  {AbstractCommand} command
+	 */
+	runCommand : function (command) {
+		this.cancelCommand();
+		this._command = command;
+		this._command.run();
+	},
+
+	/**
+	 * Cancel active command.
+	 */
+	cancelCommand : function () {
+		if (this._command) {
+			this._command.cancel();
+			this._command = null;
+		}
+	},
+
+});
 
 // export module
 var ghs = window.ghs = window.ghs || {};
