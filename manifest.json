@@ -13,9 +13,9 @@
       "libs/rpc/connection.js",
       "libs/rpc/drivers/extension-background-driver.js",
       "libs/rpc/protocols/object-protocol.js",
-      "shared/commands.js",
+      "shared/constants.js",
       "background/app/activation.js",
-      "background/app/commands.js"
+      "background/app/commands-handling.js"
     ],
     "persistent": false
   },
@@ -52,8 +52,7 @@
         "libs/rpc/drivers/extension-content-driver.js",
         "libs/rpc/protocols/object-protocol.js",
 
-        "shared/commands.js",
-        "shared/key-codes.js",
+        "shared/constants.js",
 
         "content/app/events/event.js",
         "content/app/events/event-dispatcher.js",

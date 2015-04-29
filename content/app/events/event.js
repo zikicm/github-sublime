@@ -25,6 +25,18 @@ Event.CLOSE = 'close';
  */
 Event.SUBMIT = 'submit';
 
+/**
+ * Complete event type.
+ * @type {String}
+ */
+Event.COMPLETE = 'complete';
+
+/**
+ * Cancel event type.
+ * @type {String}
+ */
+Event.CANCEL = 'cancel';
+
 // export module
 var ghs = window.ghs = window.ghs || {};
 var content = ghs.content = ghs.content || {};

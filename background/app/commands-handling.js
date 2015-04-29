@@ -4,7 +4,7 @@
 var ExtensionBackgroundDriver = ghs.libs.rpc.drivers.ExtensionBackgroundDriver;
 var ObjectProtocol = ghs.libs.rpc.protocols.ObjectProtocol;
 var Connection = ghs.libs.rpc.Connection;
-var Commands = ghs.shared.Commands;
+var Commands = ghs.shared.constants.Commands;
 
 // entrypoint
 var driver = new ExtensionBackgroundDriver();

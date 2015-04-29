@@ -4,7 +4,7 @@
 var ExtensionContentDriver = window.ghs.libs.rpc.drivers.ExtensionContentDriver;
 var ObjectProtocol = window.ghs.libs.rpc.protocols.ObjectProtocol;
 var Connection = window.ghs.libs.rpc.Connection;
-var Commands = window.ghs.shared.Commands;
+var Commands = window.ghs.shared.constants.Commands;
 
 var CommandManager = window.ghs.content.app.commands.CommandManager;
 var GotoLineCommand = window.ghs.content.app.commands.GotoLineCommand;

@@ -1,6 +1,7 @@
 (function (window) {
 
 // imports
+var EventDispatcher = window.ghs.content.app.events.EventDispatcher;
 var Event = window.ghs.content.app.events.Event;
 var PopupManager = window.ghs.content.app.ui.PopupManager;
 var GotoLinePopup = window.ghs.content.app.ui.popups.GotoLinePopup;
@@ -14,6 +15,10 @@ var GotoLineCommand = function () {
 	this._onSubmitHandler = this._onSubmit.bind(this);
 	this._onCloseHandler = this._onClose.bind(this);
 };
+
+// Temporary inheritence
+// TODO: change when proper class library is introduced in project
+GotoLineCommand.prototype = new EventDispatcher();
 
 /**
  * Override. Run command.
@@ -32,6 +37,7 @@ GotoLineCommand.prototype.run = function () {
  */
 GotoLineCommand.prototype.cancel = function () {
 	this._closePopup();
+	this._triggerCancel();
 };
 
 /**
@@ -55,6 +61,7 @@ GotoLineCommand.prototype._closePopup = function () {
 GotoLineCommand.prototype._onSubmit = function (event) {
 	this._closePopup();
 	alert('Submitted value: ' + event.data);
+	this._triggerComplete();
 };
 
 /**
@@ -64,6 +71,23 @@ GotoLineCommand.prototype._onSubmit = function (event) {
 GotoLineCommand.prototype._onClose = function (event) {
 	this._closePopup();
 	alert('Closed');
+	this._triggerCancel();
+};
+
+/**
+ * Trigger complete event.
+ */
+GotoLineCommand.prototype._triggerComplete = function () {
+	var event = new Event(Event.COMPLETE);
+	this.trigger(event);
+};
+
+/**
+ * Trigger cancel event.
+ */
+GotoLineCommand.prototype._triggerCancel = function () {
+	var event = new Event(Event.CANCEL);
+	this.trigger(event);
 };
 
 // export module

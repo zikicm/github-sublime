@@ -8,7 +8,7 @@
  */
 var PopupManager = function (container) {
 	this._container = container;
-	this._popup = null;
+	this._popupInfo = null;
 };
 
 /**
@@ -49,7 +49,7 @@ PopupManager.prototype.show = function (popup) {
 
 	horizontal.appendChild(popup.view);
 
-	this._popup = {
+	this._popupInfo = {
 		rootView : root,
 		popup : popup,
 	};
@@ -62,10 +62,10 @@ PopupManager.prototype.show = function (popup) {
  * @param  {AbstractPopup} popup
  */
 PopupManager.prototype.hide = function (popup) {
-	if (this._popup && (!popup || this._popup.popup === popup)) {
-		this._popup.popup.onHide();
-		this._container.removeChild(this._popup.rootView);
-		this._popup = null;
+	if (this._popupInfo && (!popup || this._popupInfo.popup === popup)) {
+		this._popupInfo.popup.onHide();
+		this._container.removeChild(this._popupInfo.rootView);
+		this._popupInfo = null;
 	}
 };
 

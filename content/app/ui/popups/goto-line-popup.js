@@ -1,7 +1,7 @@
 (function (window) {
 
 // imports
-var KeyCodes = window.ghs.shared.KeyCodes;
+var KeyCodes = window.ghs.shared.constants.KeyCodes;
 var Event = window.ghs.content.app.events.Event;
 var EventDispatcher = window.ghs.content.app.events.EventDispatcher;
 
