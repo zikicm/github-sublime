@@ -1,0 +1,29 @@
+{
+  "name": "github-sublime",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zikicm/github-sublime",
+  "authors": [
+    "Milos Zikic (zikicm@gmail.com) and Aleksandar Bogdanovic (comanjoni@gmail.com)"
+  ],
+  "description": "Google Chrome plugin for GitHub pages.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "github",
+    "sublime",
+    "chrome",
+    "plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jsface": "~2.4.1"
+  }
+}
