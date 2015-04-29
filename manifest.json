@@ -8,11 +8,19 @@
 
   "background": {
     "scripts": [
+      // External libraries
+      "bower_components/jsface/jsface.js",
+
+      // Internal libraries
       "libs/rpc/request.js",
       "libs/rpc/response.js",
       "libs/rpc/connection.js",
+      "libs/rpc/drivers/abstract-driver.js",
       "libs/rpc/drivers/extension-background-driver.js",
+      "libs/rpc/protocols/abstract-protocol.js",
       "libs/rpc/protocols/object-protocol.js",
+
+      // Extension code
       "shared/constants.js",
       "background/app/activation.js",
       "background/app/commands-handling.js"
@@ -46,12 +54,19 @@
         "content/css/popup.css"
       ],
       "js": [
+        // External libraries
+        "bower_components/jsface/jsface.js",
+
+        // Internal libraries
         "libs/rpc/request.js",
         "libs/rpc/response.js",
         "libs/rpc/connection.js",
+        "libs/rpc/drivers/abstract-driver.js",
         "libs/rpc/drivers/extension-content-driver.js",
+        "libs/rpc/protocols/abstract-protocol.js",
         "libs/rpc/protocols/object-protocol.js",
 
+        // Extension code
         "shared/constants.js",
 
         "content/app/events/event.js",

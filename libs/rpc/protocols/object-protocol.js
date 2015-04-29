@@ -1,119 +1,132 @@
 (function (window) {
 
+var AbstractProtocol = window.ghs.libs.rpc.protocols.AbstractProtocol;
 var Request = window.ghs.libs.rpc.Request;
 var Response = window.ghs.libs.rpc.Response;
 
 /**
- * ObjectProtocol constructor
+ * Protocol that uses JavaScript objects for communication.
  */
-var ObjectProtocol = function () {
-};
+var ObjectProtocol = Class(AbstractProtocol, {
 
-/**
- * Message type request
- * @type {String}
- */
-ObjectProtocol.TYPE_REQUEST = 'request';
+	$statics : {
 
-/**
- * Message type response
- * @type {String}
- */
-ObjectProtocol.TYPE_RESPONSE = 'response';
+		/**
+		 * Message type request
+		 * @type {String}
+		 */
+		TYPE_REQUEST : 'request',
 
-/**
- * Parse message
- * @param  {Object} msg
- * @return {Request|Response}
- */
-ObjectProtocol.prototype.parse = function (msg) {
-	var obj = null;
+		/**
+		 * Message type response
+		 * @type {String}
+		 */
+		TYPE_RESPONSE : 'response',
 
-	if (msg) {
-		if (msg.type === ObjectProtocol.TYPE_REQUEST) {
-			obj = this._parseRequest(msg);
+	},
+
+	/**
+	 * ObjectProtocol constructor
+	 */
+	constructor : function () {
+		ObjectProtocol.$super.call(this);
+	},
+
+	/**
+	 * Parse message
+	 * @param  {Object} msg
+	 * @return {Request|Response}
+	 */
+	parse : function (msg) {
+		var obj = null;
+
+		if (msg) {
+			if (msg.type === ObjectProtocol.TYPE_REQUEST) {
+				obj = this._parseRequest(msg);
+			}
+			else if (msg.type === ObjectProtocol.TYPE_RESPONSE) {
+				obj = this._parseResponse(msg);
+			}
 		}
-		else if (msg.type === ObjectProtocol.TYPE_RESPONSE) {
-			obj = this._parseResponse(msg);
+
+		return obj;
+	},
+
+	/**
+	 * Serialize request or response
+	 * @param  {Request|Response} obj
+	 * @return {Object}
+	 */
+	serialize : function (obj) {
+		var msg = null;
+
+		if (obj instanceof Request) {
+			msg = this._serializeRequest(obj);
 		}
-	}
+		else if (msg instanceof Response) {
+			msg = this._serializeResponse(obj);
+		}
 
-	return obj;
-};
+		return msg;
+	},
 
-/**
- * Serialize request or response
- * @param  {Request|Response} obj
- * @return {Object}
- */
-ObjectProtocol.prototype.serialize = function (obj) {
-	var msg = null;
+	/**
+	 * Parse request message
+	 * @param  {Object} msg
+	 * @return {Request}
+	 */
+	_parseRequest : function (msg) {
+		var req = new Request();
+		req.id = msg.id;
+		req.method = msg.method;
+		req.args = msg.args;
+		req.isNotification = msg.isNotification;
+		return req;
+	},
 
-	if (obj instanceof Request) {
-		msg = this._serializeRequest(obj);
-	}
-	else if (msg instanceof Response) {
-		msg = this._serializeResponse(obj);
-	}
+	/**
+	 * Parse response message
+	 * @param  {Object} msg
+	 * @return {Response}
+	 */
+	_parseResponse : function (msg) {
+		var resp = new Response();
+		resp.id = msg.id;
+		resp.data = msg.data;
+		resp.isError = msg.isError;
+		return resp;
+	},
 
-	return msg;
-};
+	/**
+	 * Serialize request
+	 * @param  {Request} req
+	 * @return {Object}
+	 */
+	_serializeRequest : function (req) {
+		return {
+			type : ObjectProtocol.TYPE_REQUEST,
+			id : req.id,
+			method : req.method,
+			args : req.args,
+			isNotification : req.isNotification,
+		};
+	},
 
-/**
- * Parse request message
- * @param  {Object} msg
- * @return {Request}
- */
-ObjectProtocol.prototype._parseRequest = function (msg) {
-	var req = new Request();
-	req.id = msg.id;
-	req.method = msg.method;
-	req.args = msg.args;
-	req.isNotification = msg.isNotification;
-	return req;
-};
+	/**
+	 * Serialize response
+	 * @param  {Response} resp
+	 * @return {Object}
+	 */
+	_serializeResponse : function (resp) {
+		return {
+			type : ObjectProtocol.TYPE_RESPONSE,
+			id : resp.id,
+			data : resp.data,
+			isError : resp.isError,
+		};
+	},
 
-/**
- * Parse response message
- * @param  {Object} msg
- * @return {Response}
- */
-ObjectProtocol.prototype._parseResponse = function (msg) {
-	var resp = new Response();
-	resp.id = msg.id;
-	resp.data = msg.data;
-	resp.isError = msg.isError;
-	return resp;
-};
-
-/**
- * Serialize request
- * @param  {Request} req
- * @return {Object}
- */
-ObjectProtocol.prototype._serializeRequest = function (req) {
-	return {
-		type : ObjectProtocol.TYPE_REQUEST,
-		id : req.id,
-		method : req.method,
-		args : req.args,
-		isNotification : req.isNotification,
-	};
-};
-
-/**
- * Serialize response
- * @param  {Response} resp
- * @return {Object}
- */
-ObjectProtocol.prototype._serializeResponse = function (resp) {
-	return {
-		type : ObjectProtocol.TYPE_RESPONSE,
-		id : resp.id,
-		data : resp.data,
-		isError : resp.isError,
-	};
-};
+});
 
 // export module
 var ghs = window.ghs = window.ghs || {};
