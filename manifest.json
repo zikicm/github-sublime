@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
-  "version": "1.0",
+  "name": "GitHub Utilities",
+  "description": "Chrome extension which adds Sublime's most used shortcuts to GitHub commits and pull requests.",
+  "version": "0.1",
+  "version_name": "young gun",
 
   "background": {
     "scripts": [
@@ -12,40 +13,56 @@
       "libs/rpc/connection.js",
       "libs/rpc/drivers/extension-background-driver.js",
       "libs/rpc/protocols/object-protocol.js",
+      "shared/constants.js",
       "background/app/activation.js",
-      "background/app/commands.js"
+      "background/app/commands-handling.js"
     ],
     "persistent": false
   },
 
   "page_action": {
     "default_icon": "background/assets/icon.png",
-    "default_popup": "background/popup/popup.html",
-    "default_title": "Click here - Test!"
+    "default_title": "GitHub Utilities is active"
   },
 
   "commands": {
 
-    "toggle-feature-foo": {
+    "goto-line": {
       "suggested_key": {
-        "default": "Ctrl+K",
-        "mac": "Command+K"
+        "default": "Ctrl+G",
+        "mac": "MacCtrl+G"
       },
-      "description": "Toggle feature foo"
+      "description": "Goto Line..."
     }
 
   },
 
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
-      "css": [],
+      "matches": [
+        "https://github.com/*"
+      ],
+      "css": [
+        "content/css/popup.css"
+      ],
       "js": [
         "libs/rpc/request.js",
         "libs/rpc/response.js",
         "libs/rpc/connection.js",
         "libs/rpc/drivers/extension-content-driver.js",
         "libs/rpc/protocols/object-protocol.js",
+
+        "shared/constants.js",
+
+        "content/app/events/event.js",
+        "content/app/events/event-dispatcher.js",
+
+        "content/app/ui/popups/goto-line-popup.js",
+        "content/app/ui/popup-manager.js",
+
+        "content/app/commands/goto-line-command.js",
+        "content/app/commands/command-manager.js",
+
         "content/app/main.js"
       ]
     }
