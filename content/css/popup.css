@@ -1,10 +1,14 @@
 
+/* popup css */
+
 .popup-root {
-	position: absolute;
+	position: fixed;
+	z-index: 999999;
 	left: 0px;
 	top: 0px;
 	width: 100%;
 	height: 100%;
+	background-color: rgba(0, 0, 0, 0.2)
 }
 
 .popup-vertical-position {
@@ -18,4 +22,35 @@
 	margin-right: auto;
 	margin-bottom: 0px;
 	width: 30%;
+}
+
+.popup-view {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+/* goto line popup */
+
+.popup-goto-line-input {
+	width: 100%;
+	height: 100%;
+	padding-left: 12px !important;
+}
+
+.popup-goto-line-label {
+	pointer-events: none;
+	position: absolute;
+	width: 15px;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	/* Safari, Opera, and Chrome */
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+}
+
+.popup-goto-line-label::before {
+	content: ":";
 }

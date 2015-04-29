@@ -15,6 +15,7 @@ var AbstractPopup = Class(EventDispatcher, {
 		AbstractPopup.$super.call(this);
 
 		this.view = document.createElement('div');
+		this.view.className = "popup-view";
 	},
 
 	/**

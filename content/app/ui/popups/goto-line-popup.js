@@ -28,9 +28,15 @@ var GotoLinePopup = Class(AbstractPopup, {
 	 * Init popup.
 	 */
 	_init : function () {
+		// create input
 		this._input = document.createElement('input');
-		this._input.type = "text";
+		this._input.type = 'text';
+		this._input.className = 'popup-goto-line-input';
 		this.view.appendChild(this._input);
+		// create label
+		var label = document.createElement('div');
+		label.className = 'popup-goto-line-label';
+		this.view.appendChild(label);
 	},
 
 	/**
