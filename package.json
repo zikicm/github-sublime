@@ -1,0 +1,31 @@
+{
+  "name": "github-sublime",
+  "version": "0.0.0",
+  "description": "Google Chrome plugin for GitHub",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zikicm/github-sublime.git"
+  },
+  "keywords": [
+    "chrome",
+    "github",
+    "plugin",
+    "code",
+    "review",
+    "pull",
+    "request"
+  ],
+  "author": "Aleksandar Bogdanovic (comanjoni@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zikicm/github-sublime/issues"
+  },
+  "homepage": "https://github.com/zikicm/github-sublime",
+  "devDependencies": {
+    "less": "^2.5.0"
+  }
+}
