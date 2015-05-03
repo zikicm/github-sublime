@@ -1,39 +1,34 @@
-(function (window) {
-
-/**
- * Rpc abstract driver. Defines driver interface.
- */
- var AbstractDriver = Class({
+define("libs/rpc/drivers/abstract-driver", function(require, exports, module) {
 
 	/**
-	 * AbstractDriver constructor
+	 * Rpc abstract driver. Defines driver interface.
 	 */
- 	constructor : function () {
- 	},
+	 var AbstractDriver = Class({
 
-	/**
-	 * Send message to remote node
-	 * @param  {Object} msg
-	 */
-	send : function (msg) {
-		throw new Error('Not implemented!');
-	},
+		/**
+		 * AbstractDriver constructor
+		 */
+	 	constructor : function () {
+	 	},
 
-	/**
-	 * Register listener for messages
-	 * @param  {Function} callback
-	 */
-	onRecieve : function (callback) {
-		throw new Error('Not implemented!');
-	},
+		/**
+		 * Send message to remote node
+		 * @param  {Object} msg
+		 */
+		send : function (msg) {
+			throw new Error('Not implemented!');
+		},
 
- });
+		/**
+		 * Register listener for messages
+		 * @param  {Function} callback
+		 */
+		onRecieve : function (callback) {
+			throw new Error('Not implemented!');
+		},
 
-// export module
-var ghs = window.ghs = window.ghs || {};
-var libs = ghs.libs = ghs.libs || {};
-var rpc = libs.rpc = libs.rpc || {};
-var drivers = rpc.drivers = rpc.drivers || {};
-drivers.AbstractDriver = AbstractDriver;
+	 });
 
-})(window);
+	module.exports = AbstractDriver;
+
+});

@@ -1,45 +1,39 @@
-(function (window) {
+define("content/app/ui/popups/abstract-popup", function(require, exports, module) {
 
-// imports
-var EventDispatcher = window.ghs.content.app.events.EventDispatcher;
-
-/**
- * Abstract popup defines popup interface and provides ui container.
- */
-var AbstractPopup = Class(EventDispatcher, {
+	// imports
+	var EventDispatcher = require("content/app/events/event-dispatcher");
 
 	/**
-	 * AbstractPopup constructor.
+	 * Abstract popup defines popup interface and provides ui container.
 	 */
-	constructor : function () {
-		AbstractPopup.$super.call(this);
+	var AbstractPopup = Class(EventDispatcher, {
 
-		this.view = document.createElement('div');
-		this.view.className = "popup-view";
-	},
+		/**
+		 * AbstractPopup constructor.
+		 */
+		constructor : function () {
+			AbstractPopup.$super.call(this);
 
-	/**
-	 * Method called when popup is shown.
-	 */
-	onShow : function () {
-		throw new Event('Not implemented!');
-	},
+			this.view = document.createElement('div');
+			this.view.className = "popup-view";
+		},
 
-	/**
-	 * Method called when popup is hidden.
-	 */
-	onHide : function () {
-		throw new Event('Not implemented!');
-	},
+		/**
+		 * Method called when popup is shown.
+		 */
+		onShow : function () {
+			throw new Event('Not implemented!');
+		},
+
+		/**
+		 * Method called when popup is hidden.
+		 */
+		onHide : function () {
+			throw new Event('Not implemented!');
+		},
+
+	});
+
+	module.exports = AbstractPopup;
 
 });
-
-// export module
-var ghs = window.ghs = window.ghs || {};
-var content = ghs.content = ghs.content || {};
-var app = content.app = content.app || {};
-var ui = app.ui = app.ui || {};
-var popups = ui.popups = ui.popups || {};
-popups.AbstractPopup = AbstractPopup;
-
-})(window);
