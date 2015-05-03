@@ -39,3 +39,18 @@ test("Define.js: Exception on require of undefined module", function(assert) {
 		"Passed!");
 
 });
+
+test("Define.js: Exception on defining already defined", function(assert) {
+
+	define("someLib/existingModule", function() {});
+
+	var moduleName = "someLib/existingModule";
+	var moduleFunc = function() {}
+	var moduleDefine = define.bind(null, moduleName, moduleFunc);
+
+	assert.throws(
+		moduleDefine, // Block which should throw exception
+		new Error("Module someLib/existingModule already defined!"), // Expected exception
+		"Passed!");
+
+});
