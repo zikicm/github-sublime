@@ -25,5 +25,8 @@
   ],
   "dependencies": {
     "jsface": "~2.4.1"
+  },
+  "devDependencies": {
+    "qunit": "~1.18.0"
   }
 }
