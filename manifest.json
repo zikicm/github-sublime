@@ -11,6 +11,9 @@
       // External libraries
       "bower_components/jsface/jsface.js",
 
+      // Define.js
+      "libs/core/define.js",
+
       // Internal libraries
       "libs/rpc/request.js",
       "libs/rpc/response.js",
@@ -56,6 +59,9 @@
       "js": [
         // External libraries
         "bower_components/jsface/jsface.js",
+
+        // Define.js
+        "libs/core/define.js",
 
         // Internal libraries
         "libs/rpc/request.js",
