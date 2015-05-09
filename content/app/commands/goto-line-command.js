@@ -86,9 +86,41 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * @param  {Number} lineNumber
 		 */
 		_gotoLine : function (lineNumber) {
+			var line = this._findLine(lineNumber);
+			if (lineNumber) {
+				// TODO: Scroll to this location and highlight it somehow
+				alert("Goto line: " + lineNumber + " -> closest line: " + line.newNumber);
+				this._triggerComplete();
+			} else {
+				this._triggerCancel();
+			}
+		},
+
+		/**
+		 * Find closest line to specified line.
+		 * @param  {Number} 			lineNumber
+		 * @return {LineElementWrapper}
+		 */
+		_findLine : function (lineNumber) {
+			var line = null;
+
 			var currentFile = CommitPageHelper.getCurrentFile();
-			alert("Goto line: " + lineNumber + " in file: " + currentFile);
-			this._triggerComplete();
+			if (currentFile) {
+				var fileData = currentFile.getFileData();
+				var lines = fileData.getLines();
+				// TODO: Discuss about this!
+				// Currenlty this will return closest line by new line number.
+				lines.sort(function (line1, line2) {
+					var number1 = isNaN(line1.newNumber) ? Number.MAX_VALUE : line1.newNumber;
+					var number2 = isNaN(line2.newNumber) ? Number.MAX_VALUE : line2.newNumber;
+					var distance1 = Math.abs(lineNumber - number1);
+					var distance2 = Math.abs(lineNumber - number2);
+					return distance1 - distance2;
+				});
+				line = lines[0];
+			}
+
+			return line;
 		},
 
 		/**
