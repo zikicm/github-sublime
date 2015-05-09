@@ -28,8 +28,9 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			 * @return {Box}
 			 */
 			getViewportClientBoundingBox : function () {
-				var bbox = WindowHelper.getViewportBoundingBox();
-				return bbox.move(0, 0);
+				var width = document.documentElement.clientWidth;
+				var height = document.documentElement.clientHeight;
+				return new Box(0, 0, width, height);
 			},
 
 		},

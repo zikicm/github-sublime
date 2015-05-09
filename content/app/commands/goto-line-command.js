@@ -65,10 +65,10 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		_onSubmit : function (event) {
 			this._closePopup();
 			var lineNumber = parseInt(event.data);
-			if (!isNaN(lineNumber)) {
-				this._gotoLine(lineNumber);
-			} else {
+			if (isNaN(lineNumber)) {
 				this._triggerCancel();
+			} else {
+				this._gotoLine(lineNumber);
 			}
 		},
 

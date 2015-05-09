@@ -21,9 +21,9 @@ define("content/app/models/box", function(require, exports, module) {
 		/**
 		 * Box constructor.
 		 * @param  {Number} left
-		 * @param  {Number} top    [description]
-		 * @param  {Number} width  [description]
-		 * @param  {Number} height [description]
+		 * @param  {Number} top
+		 * @param  {Number} width
+		 * @param  {Number} height
 		 */
 		constructor : function (left, top, width, height) {
 			this._left = left;
@@ -93,23 +93,25 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
-		 * Get new bounding box that is translation of current.
+		 * Translate current box.
 		 * @param  {Number} x
 		 * @param  {Number} y
 		 * @return {Box}
 		 */
 		translate : function (x, y) {
-			return new Box(this.left + x, this.top + y, this.width, this.height);
+			this._left += x;
+			this._top += y;
 		},
 
 		/**
-		 * Get new bounding box with same size as current but moved to new location.
+		 * Move current box.
 		 * @param  {Number} x
 		 * @param  {Number} y
 		 * @return {Box}
 		 */
 		move : function (x, y) {
-			return new Box(x, y, this.width, this.height);
+			this._left = x;
+			this._top = y;
 		},
 
 		/**

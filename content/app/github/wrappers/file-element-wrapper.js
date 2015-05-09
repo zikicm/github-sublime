@@ -1,4 +1,4 @@
-define("content/app/github/wrappers/page-element-wrapper", function(require, exports, module) {
+define("content/app/github/wrappers/file-element-wrapper", function(require, exports, module) {
 
 	// imports
 	var DomElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
@@ -7,6 +7,12 @@ define("content/app/github/wrappers/page-element-wrapper", function(require, exp
 	 * Wrapper for file DOM element.
 	 */
 	var FileElementWrapper = Class(DomElementWrapper, {
+
+		$statics : {
+
+			FILE_CLASS : 'file',
+
+		},
 
 		/**
 		 * Constructor.

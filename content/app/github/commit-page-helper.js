@@ -1,7 +1,7 @@
 define("content/app/github/commit-page-helper", function(require, exports, module) {
 
 	// imports
-	var FileElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
+	var FileElementWrapper = require("content/app/github/wrappers/file-element-wrapper");
 
 	/**
 	 * Helper for accessing and manipulating DOM of commit and pull request page.
@@ -10,14 +10,12 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 
 		$statics : {
 
-			FILE_CLASS : 'file',
-
 			/**
 			 * Get wrappers for all files DOM elements.
-			 * @return {Array}
+			 * @return {FileElementWrapper[]}
 			 */
 			getAllFiles : function () {
-				var domElements = document.getElementsByClassName(CommitPageHelper.FILE_CLASS);
+				var domElements = document.getElementsByClassName(FileElementWrapper.FILE_CLASS);
 
 				var files = [];
 				for (var i = 0; i < domElements.length; i++) {
@@ -35,9 +33,10 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 				var files = CommitPageHelper.getAllFiles();
 
 				var file = null;
-				for (var i = 0; i < files.length && file === null; i++) {
+				for (var i = 0; i < files.length; i++) {
 					if (files[i].isInViewport) {
 						file = files[i];
+						break;
 					}
 				}
 

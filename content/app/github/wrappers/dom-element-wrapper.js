@@ -36,7 +36,8 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 			get : function () {
 				var clientBBox = this.clientBoundingBox;
 				var viewport = WindowHelper.getViewportBoundingBox();
-				return clientBBox.translate(viewport.left, viewport.top);
+				clientBBox.translate(viewport.left, viewport.top);
+				return clientBBox;
 			},
 		},
 
