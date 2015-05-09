@@ -6,6 +6,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 	var PopupManager = require("content/app/ui/popup-manager");
 	var GotoLinePopup = require("content/app/ui/popups/goto-line-popup");
 	var AbstractCommand = require("content/app/commands/abstract-command");
+	var CommitPageHelper = require("content/app/github/commit-page-helper");
 
 	/**
 	 * This command is used for navigating used in current visible file.
@@ -63,8 +64,12 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_onSubmit : function (event) {
 			this._closePopup();
-			alert('Submitted value: ' + event.data);
-			this._triggerComplete();
+			var lineNumber = parseInt(event.data);
+			if (isNaN(lineNumber)) {
+				this._triggerCancel();
+			} else {
+				this._gotoLine(lineNumber);
+			}
 		},
 
 		/**
@@ -73,8 +78,17 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_onClose : function (event) {
 			this._closePopup();
-			alert('Closed');
 			this._triggerCancel();
+		},
+
+		/**
+		 * Navigates to closest line number in current visible file.
+		 * @param  {Number} lineNumber
+		 */
+		_gotoLine : function (lineNumber) {
+			var currentFile = CommitPageHelper.getCurrentFile();
+			alert("Goto line: " + lineNumber + " in file: " + currentFile);
+			this._triggerComplete();
 		},
 
 		/**

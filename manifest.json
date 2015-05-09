@@ -75,8 +75,15 @@
         // Extension code
         "shared/constants.js",
 
+        "content/app/models/box.js",
+
         "content/app/events/event.js",
         "content/app/events/event-dispatcher.js",
+
+        "content/app/github/window-helper.js",
+        "content/app/github/wrappers/dom-element-wrapper.js",
+        "content/app/github/wrappers/file-element-wrapper.js",
+        "content/app/github/commit-page-helper.js",
 
         "content/app/ui/popups/abstract-popup.js",
         "content/app/ui/popups/goto-line-popup.js",
