@@ -22,6 +22,16 @@ define("content/app/github/window-helper", function(require, exports, module) {
 				return new Box(left, top, width, height);
 			},
 
+			/**
+			 * Get viewport bounding box relative to client visible area.
+			 * That means that viewport is at position (0,0).
+			 * @return {Box}
+			 */
+			getViewportClientBoundingBox : function () {
+				var bbox = WindowHelper.getViewportBoundingBox();
+				return bbox.move(0, 0);
+			},
+
 		},
 
 	});

@@ -67,8 +67,9 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 			var lineNumber = parseInt(event.data);
 			if (!isNaN(lineNumber)) {
 				this._gotoLine(lineNumber);
+			} else {
+				this._triggerCancel();
 			}
-			this._triggerComplete();
 		},
 
 		/**
@@ -87,6 +88,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		_gotoLine : function (lineNumber) {
 			var currentFile = CommitPageHelper.getCurrentFile();
 			alert("Goto line: " + lineNumber + " in file: " + currentFile);
+			this._triggerComplete();
 		},
 
 		/**

@@ -18,7 +18,7 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 		},
 
 		/**
-		 * Bounding box of DOM element relative to visible area.
+		 * Bounding box of DOM element relative to viewport top-left corner.
 		 * @type {Box}
 		 */
 		clientBoundingBox : {
@@ -46,9 +46,9 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 		 */
 		isInViewport : {
 			get : function () {
-				var bbox = this.boundingBox;
-				var viewport = WindowHelper.getViewportBoundingBox();
-				return (bbox.intersection(viewport) !== null);
+				var clientBBox = this.clientBoundingBox;
+				var clientViewport = WindowHelper.getViewportClientBoundingBox();
+				return (clientBBox.intersection(clientViewport) !== null);
 			},
 		},
 

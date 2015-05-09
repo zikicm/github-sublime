@@ -103,6 +103,16 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
+		 * Get new bounding box with same size as current but moved to new location.
+		 * @param  {Number} x
+		 * @param  {Number} y
+		 * @return {Box}
+		 */
+		move : function (x, y) {
+			return new Box(x, y, this.width, this.height);
+		},
+
+		/**
 		 * Get intersection box between boxes.
 		 * @param  {Box} box Another box.
 		 * @return {Box}     Intersection.
