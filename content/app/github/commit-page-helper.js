@@ -15,14 +15,7 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 			 * @return {FileElementWrapper[]}
 			 */
 			getAllFiles : function () {
-				var domElements = document.getElementsByClassName(FileElementWrapper.FILE_CLASS);
-
-				var files = [];
-				for (var i = 0; i < domElements.length; i++) {
-					files.push(new FileElementWrapper(domElements[i]));
-				}
-
-				return files;
+				return FileElementWrapper.getAllFromElement(document);
 			},
 
 			/**

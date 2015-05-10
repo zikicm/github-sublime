@@ -82,6 +82,8 @@
 
         "content/app/github/window-helper.js",
         "content/app/github/wrappers/dom-element-wrapper.js",
+        "content/app/github/wrappers/line-element-wrapper.js",
+        "content/app/github/wrappers/file-data-element-wrapper.js",
         "content/app/github/wrappers/file-element-wrapper.js",
         "content/app/github/commit-page-helper.js",
 
