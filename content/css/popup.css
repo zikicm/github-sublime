@@ -54,3 +54,28 @@
 .popup-goto-line-label::before {
 	content: ":";
 }
+
+/* goto file popup */
+
+.popup-goto-file-input {
+	width: 100%;
+	height: 100%;
+	padding-left: 12px !important;
+}
+
+.popup-goto-file-label {
+	pointer-events: none;
+	position: absolute;
+	width: 15px;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	/* Safari, Opera, and Chrome */
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+}
+
+.popup-goto-file-label::before {
+	content: ":";
+}

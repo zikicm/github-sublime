@@ -11,6 +11,7 @@ define("shared/constants", function(require, exports, module) {
 		 */
 		Commands : {
 			GOTO_LINE : 'goto-line',
+			GOTO_FILE : 'goto-file',
 		},
 
 		/**
@@ -20,6 +21,11 @@ define("shared/constants", function(require, exports, module) {
 			ENTER : 13,
 			ESC : 27,
 		},
+
+		DomEvents : {
+			FOCUS_OUT : "focusout",
+			KEY_UP : "keyup",
+		}
 
 	};
 

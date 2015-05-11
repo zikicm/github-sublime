@@ -21,7 +21,7 @@ define("background/app/commands-handling", function(require, exports, module) {
 		switch (command) {
 
 			case Commands.GOTO_LINE:
-				// Commands that should be passed to content script.
+			case Commands.GOTO_FILE: 
 				conn.notify(command);
 				break;
 

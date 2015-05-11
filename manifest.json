@@ -44,6 +44,14 @@
         "mac": "MacCtrl+G"
       },
       "description": "Goto Line..."
+    },
+
+    "goto-file" : {
+      "suggested_key": {
+        "default": "Ctrl+P",
+        "mac": "MacCtrl+P"
+      },
+      "description": "Goto File..."
     }
 
   },
@@ -89,10 +97,12 @@
 
         "content/app/ui/popups/abstract-popup.js",
         "content/app/ui/popups/goto-line-popup.js",
+        "content/app/ui/popups/goto-file-popup.js",
         "content/app/ui/popup-manager.js",
 
         "content/app/commands/abstract-command.js",
         "content/app/commands/goto-line-command.js",
+        "content/app/commands/goto-file-command.js",
         "content/app/commands/command-manager.js",
 
         "content/app/main.js"

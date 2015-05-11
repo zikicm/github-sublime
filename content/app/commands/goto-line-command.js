@@ -77,8 +77,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * @param  {Event} event
 		 */
 		_onClose : function (event) {
-			this._closePopup();
-			this._triggerCancel();
+			this.cancel();
 		},
 
 		/**
