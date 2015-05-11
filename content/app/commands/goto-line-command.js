@@ -65,11 +65,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		_onSubmit : function (event) {
 			this._closePopup();
 			var lineNumber = parseInt(event.data);
-			if (isNaN(lineNumber)) {
-				this._triggerCancel();
-			} else {
-				this._gotoLine(lineNumber);
-			}
+			this._gotoLine(lineNumber);
 		},
 
 		/**
@@ -86,14 +82,14 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * @param  {Number} lineNumber
 		 */
 		_gotoLine : function (lineNumber) {
-			var line = this._findLine(lineNumber);
-			if (lineNumber) {
-				// TODO: Scroll to this location and highlight it somehow
-				alert("Goto line: " + lineNumber + " -> closest line: " + line.newNumber);
-				this._triggerComplete();
-			} else {
-				this._triggerCancel();
+			if (!isNaN(lineNumber)) {
+				var line = this._findLine(lineNumber);
+				if (line) {
+					// TODO: Scroll to this location and highlight it somehow
+					alert("Goto line: " + lineNumber + " -> closest line: " + line.newNumberRange);
+				}
 			}
+			this._triggerComplete();
 		},
 
 		/**
@@ -108,16 +104,13 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 			if (currentFile) {
 				var fileData = currentFile.getFileData();
 				var lines = fileData.getLines();
-				// TODO: Discuss about this!
-				// Currenlty this will return closest line by new line number.
-				lines.sort(function (line1, line2) {
-					var number1 = isNaN(line1.newNumber) ? Number.MAX_VALUE : line1.newNumber;
-					var number2 = isNaN(line2.newNumber) ? Number.MAX_VALUE : line2.newNumber;
-					var distance1 = Math.abs(lineNumber - number1);
-					var distance2 = Math.abs(lineNumber - number2);
-					return distance1 - distance2;
-				});
-				line = lines[0];
+				// Find line which line contains lineNumber.
+				for (var i = 0; i < lines.length; i++) {
+					if (lines[i].containsLine(lineNumber)) {
+						line = lines[i];
+						break;
+					}
+				}
 			}
 
 			return line;

@@ -11,7 +11,44 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		$statics : {
 
 			TAG_NAME : 'tr',
+			TAG_LINE_CLASS : '',
+			TAG_EXPANDABLE_BUTTON_CLASS : 'js-expandable-line',
 			NUMBER_ATTR_NAME : 'data-line-number',
+
+			/**
+			 * Populate missing line ranges.
+			 * This should set ranges for expand button lines.
+			 * @param  {LineElementWrapper[]} lines
+			 */
+			_populateMissingRanges : function (lines) {
+
+				for (var i = 0; i < lines.length; i++) {
+					var line = lines[i];
+
+					if (line.isExpandButton) {
+						var prevOldLineNumber = 0;
+						var nextOldLineNumber = Number.MAX_VALUE;
+						var prevNewLineNumber = 0;
+						var nextNewLineNumber = Number.MAX_VALUE;
+
+						var prevLine = lines[i-1];
+						if (prevLine) {
+							prevOldLineNumber = prevLine.oldNumberRange[1];
+							prevNewLineNumber = prevLine.newNumberRange[1];
+						}
+
+						var nextLine = lines[i+1];
+						if (nextLine) {
+							nextOldLineNumber = nextLine.oldNumberRange[0];
+							nextNewLineNumber = nextLine.newNumberRange[0];
+						}
+
+						line.oldNumberRange = [prevOldLineNumber, nextOldLineNumber];
+						line.newNumberRange = [prevNewLineNumber, nextNewLineNumber];
+					}
+				}
+
+			},
 
 			/**
 			 * Get wrappers for all DOM elements in root.
@@ -24,9 +61,13 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 				var lines = [];
 				for (var i = 0; i < domElements.length; i++) {
 					var domElement = domElements[i];
-					// TODO: Consider additional filtering.
-					lines.push(new LineElementWrapper(domElement));
+					var className = domElement.className;
+					if (className === LineElementWrapper.TAG_LINE_CLASS || className === LineElementWrapper.TAG_EXPANDABLE_BUTTON_CLASS) {
+						lines.push(new LineElementWrapper(domElement));
+					}
 				}
+
+				this._populateMissingRanges(lines);
 
 				return lines;
 			},
@@ -39,29 +80,57 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		 */
 		constructor : function (domElement) {
 			LineElementWrapper.$super.call(this, domElement);
-			this._oldNumber = null;
-			this._newNumber = null;
+			this._oldNumberRange = null;
+			this._newNumberRange = null;
+			this._isExpandButton = false;
 			this._proccessElement();
 		},
 
 		/**
-		 * Get old code line.
-		 * @type {Number}
+		 * Get old code line number range.
+		 * @type {Number[]}
 		 */
-		oldNumber : {
+		oldNumberRange : {
 			get : function () {
-				return this._oldNumber;
+				return this._oldNumberRange;
+			},
+			set : function (value) {
+				this._oldNumberRange = value;
 			},
 		},
 
 		/**
-		 * Get new code number.
-		 * @type {Number}
+		 * Get new code line number range.
+		 * @type {Number[]}
 		 */
-		newNumber : {
+		newNumberRange : {
 			get : function () {
-				return this._newNumber;
+				return this._newNumberRange;
 			},
+			set : function (value) {
+				this._newNumberRange = value;
+			},
+		},
+
+		/**
+		 * Check if line is expand button.
+		 * @type {Boolean}
+		 */
+		isExpandButton : {
+			get : function () {
+				return this._isExpandButton;
+			},
+		},
+
+		/**
+		 * Check if current line contains or represents specified line.
+		 * @param {Number} 		lineNumber
+		 * @return {Boolean}
+		 */
+		containsLine : function (lineNumber) {
+			return (this.newNumberRange &&
+					this.newNumberRange[0] <= lineNumber &&
+					this.newNumberRange[1] >= lineNumber);
 		},
 
 		/**
@@ -69,24 +138,26 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		 */
 		_proccessElement : function () {
 			var children = this._domElement.children;
-			this._oldNumber = this._extractLineNumber(children[0]);
-			this._newNumber = this._extractLineNumber(children[1]);
+			this._oldNumberRange = this._extractLineNumberRange(children[0]);
+			this._newNumberRange = this._extractLineNumberRange(children[1]);
+			this._isExpandButton = this._domElement.className === LineElementWrapper.TAG_EXPANDABLE_BUTTON_CLASS;
 		},
 
 		/**
-		 * Extract line number from DOM element.
+		 * Extract line number range from DOM element.
 		 * @param  {Element} domElement
-		 * @return {Number}
+		 * @return {Number[]}
 		 */
-		_extractLineNumber : function (domElement) {
-			var lineNumber = null;
+		_extractLineNumberRange : function (domElement) {
+			var range = null;
 
 			if (domElement && domElement.attributes.hasOwnProperty(LineElementWrapper.NUMBER_ATTR_NAME)) {
 				var attr = domElement.attributes[LineElementWrapper.NUMBER_ATTR_NAME];
-				lineNumber = parseInt(attr.value);
+				var value = parseInt(attr.value);
+				range = [value, value];
 			}
 
-			return lineNumber;
+			return range;
 		},
 
 	});
