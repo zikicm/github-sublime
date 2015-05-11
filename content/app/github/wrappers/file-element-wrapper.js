@@ -11,7 +11,7 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 
 		$statics : {
 
-			CLASS_NAME : 'file',
+			CLASS_NAME : 'file js-details-container',
 
 			/**
 			 * Fet all wrappers for all elements in root.
