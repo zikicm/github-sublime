@@ -93,6 +93,16 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
+		 * Box area.
+		 * @type {Number}
+		 */
+		area : {
+			get : function () {
+				return this._width * this._height;
+			},
+		},
+
+		/**
 		 * Translate current box.
 		 * @param  {Number} x
 		 * @param  {Number} y

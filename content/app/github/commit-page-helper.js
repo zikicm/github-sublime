@@ -26,11 +26,18 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 				var files = CommitPageHelper.getAllFiles();
 
 				var file = null;
+				var maxArea = 0;
+
 				for (var i = 0; i < files.length; i++) {
-					if (files[i].isInViewport) {
-						file = files[i];
-						break;
+
+					var curFile = files[i];
+					var visibleBBox = curFile.visibleClientBoundingBox;
+
+					if (visibleBBox && visibleBBox.area > maxArea) {
+						file = curFile;
+						maxArea = visibleBBox.area;
 					}
+
 				}
 
 				return file;
