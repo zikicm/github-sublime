@@ -1,7 +1,7 @@
-define("content/app/ui/popups/goto-line-popup", function(require, exports, module) {
+define("content/app/ui/popups/goto-file-popup", function(require, exports, module) {
 
 	// imports
-	var constants = require("shared/constants"); 
+	var constants = require("shared/constants");
 	var KeyCodes = constants.KeyCodes;
 	var DomEvents = constants.DomEvents;
 	var Event = require("content/app/events/event");
@@ -9,15 +9,15 @@ define("content/app/ui/popups/goto-line-popup", function(require, exports, modul
 	var AbstractPopup = require("content/app/ui/popups/abstract-popup");
 
 	/**
-	 * Popup for getting line number from user.
+	 * Popup for getting file name from user.
 	 */
-	var GotoLinePopup = Class(AbstractPopup, {
+	var GotoFilePopup = Class(AbstractPopup, {
 
 		/**
-		 * GotoLinePopup constructor.
+		 * GotoFilePopup constructor.
 		 */
 		constructor : function () {
-			GotoLinePopup.$super.call(this);
+			GotoFilePopup.$super.call(this);
 
 			this._input = null;
 			this._onBlurHandler = this._onBlur.bind(this);
@@ -33,11 +33,11 @@ define("content/app/ui/popups/goto-line-popup", function(require, exports, modul
 			// create input
 			this._input = document.createElement('input');
 			this._input.type = 'text';
-			this._input.className = 'popup-goto-line-input';
+			this._input.className = 'popup-goto-file-input';
 			this.view.appendChild(this._input);
 			// create label
 			var label = document.createElement('div');
-			label.className = 'popup-goto-line-label';
+			label.className = 'popup-goto-file-label';
 			this.view.appendChild(label);
 		},
 
@@ -93,13 +93,12 @@ define("content/app/ui/popups/goto-line-popup", function(require, exports, modul
 		 * Trigger submit event.
 		 */
 		_triggerSubmit : function () {
-			var value = parseInt(this._input.value);
-			var event = new Event(Event.SUBMIT, value);
+			var event = new Event(Event.SUBMIT, this._input.value);
 			this.trigger(event);
 		},
 
 	});
 
-	module.exports = GotoLinePopup;
+	module.exports = GotoFilePopup;
 
 });

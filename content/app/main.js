@@ -8,6 +8,7 @@ define("content/app/main", function(require, exports, module) {
 
 	var CommandManager = require("content/app/commands/command-manager");
 	var GotoLineCommand = require("content/app/commands/goto-line-command");
+	var GotoFileCommand = require("content/app/commands/goto-file-command");
 
 	// entrypoint
 	var driver = new ExtensionContentDriver();
@@ -16,10 +17,18 @@ define("content/app/main", function(require, exports, module) {
 
 	var commandManager = new CommandManager();
 
-	// register methods
+	// Register methods
+
+	// Goto line command
 	conn.on(Commands.GOTO_LINE, function () {
 		var command = new GotoLineCommand();
 		commandManager.runCommand(command);
 	});
+
+	// Goto file command
+	conn.on(Commands.GOTO_FILE, function () {
+		var command = new GotoFileCommand();
+		commandManager.runCommand(command);
+	});	
 
 });

@@ -1,25 +1,32 @@
-define("content/app/commands/goto-line-command", function(require, exports, module) {
+define("content/app/commands/goto-file-command", function(require, exports, module) {
 
 	// imports
 	var EventDispatcher = require("content/app/events/event-dispatcher");
 	var Event =require("content/app/events/event");
 	var PopupManager = require("content/app/ui/popup-manager");
-	var GotoLinePopup = require("content/app/ui/popups/goto-line-popup");
+	var GotoFilePopup = require("content/app/ui/popups/goto-file-popup");
 	var AbstractCommand = require("content/app/commands/abstract-command");
 	var CommitPageHelper = require("content/app/github/commit-page-helper");
+	var WindowHelper = require("content/app/github/window-helper");
 
 	/**
 	 * This command is used for navigating used in current visible file.
 	 */
-	var GotoLineCommand = Class(AbstractCommand, {
+	var GotoFileCommand = Class(AbstractCommand, {
+
+		$statics : {
+			MARGIN_TOP : 10,
+		},
 
 		/**
 		 * GotoLineCommand constructor.
 		 */
 		constructor : function () {
-			GotoLineCommand.$super.call(this);
+			GotoFileCommand.$super.call(this);
 
 			this._popup = null;
+			this._fileWrappers = null;
+
 			this._onSubmitHandler = this._onSubmit.bind(this);
 			this._onCloseHandler = this._onClose.bind(this);
 		},
@@ -28,10 +35,12 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * Override. Run command.
 		 */
 		run : function () {
-			this._popup = new GotoLinePopup();
+			this._popup = new GotoFilePopup();
 
 			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
 			this._popup.on(Event.CLOSE, this._onCloseHandler);
+
+			this._fileWrappers = CommitPageHelper.getAllFiles();
 
 			PopupManager.global().show(this._popup);
 		},
@@ -42,6 +51,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		cancel : function () {
 			this._closePopup();
 			this._triggerCancel();
+			this._fileWrappers = null;
 		},
 
 		/**
@@ -64,8 +74,44 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_onSubmit : function (event) {
 			this._closePopup();
-			var lineNumber = parseInt(event.data);
-			this._gotoLine(lineNumber);
+			
+			var userQuery = event.data;
+			var fileWrappers = this._fileWrappers;
+
+			var desiredFileWrapper = this._getDesiredFileWrapper(userQuery);
+			if (desiredFileWrapper) {
+				this._scrollWindowToFile(desiredFileWrapper);
+			}
+
+			this._triggerComplete();
+		},
+
+		/**
+		 * Gets desired file wrapper based on user input.
+		 * @param  {String}		userQuery	Part of the file path.
+		 * @return {FileWrapper}
+		 */
+		_getDesiredFileWrapper : function(userQuery) {
+			var fileWrappers = this._fileWrappers;
+			var desiredFileWrapper = null;
+			for (var i = 0; i < fileWrappers.length; i++) {
+				if (fileWrappers[i].fileName.indexOf(userQuery) !== -1) {
+					desiredFileWrapper = fileWrappers[i];
+					break;
+				}
+			}
+
+			return desiredFileWrapper;
+		},
+
+		/**
+		 * Scrolls window to show the provided file wrapper.
+		 * @param  	{FileWrapper} 	fileWrapper		File wrapper to which window should
+		 * 											be scrolled. 
+		 */
+		_scrollWindowToFile : function(fileWrapper) {
+			var fileBox = fileWrapper.boundingBox;
+			WindowHelper.scrollTop( fileBox.top - GotoFileCommand.MARGIN_TOP );
 		},
 
 		/**
@@ -74,45 +120,6 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_onClose : function (event) {
 			this.cancel();
-		},
-
-		/**
-		 * Navigates to closest line number in current visible file.
-		 * @param  {Number} lineNumber
-		 */
-		_gotoLine : function (lineNumber) {
-			if (!isNaN(lineNumber)) {
-				var line = this._findLine(lineNumber);
-				if (line) {
-					// TODO: Scroll to this location and highlight it somehow
-					alert("Goto line: " + lineNumber + " -> closest line: " + line.newNumberRange);
-				}
-			}
-			this._triggerComplete();
-		},
-
-		/**
-		 * Find closest line to specified line.
-		 * @param  {Number} 			lineNumber
-		 * @return {LineElementWrapper}
-		 */
-		_findLine : function (lineNumber) {
-			var line = null;
-
-			var currentFile = CommitPageHelper.getCurrentFile();
-			if (currentFile) {
-				var fileData = currentFile.getFileData();
-				var lines = fileData.getLines();
-				// Find line which line contains lineNumber.
-				for (var i = 0; i < lines.length; i++) {
-					if (lines[i].containsLine(lineNumber)) {
-						line = lines[i];
-						break;
-					}
-				}
-			}
-
-			return line;
 		},
 
 		/**
@@ -133,6 +140,6 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 
 	});
 
-	module.exports = GotoLineCommand;
+	module.exports = GotoFileCommand;
 
 });

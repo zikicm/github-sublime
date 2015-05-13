@@ -33,6 +33,15 @@ define("content/app/github/window-helper", function(require, exports, module) {
 				return new Box(0, 0, width, height);
 			},
 
+			/**
+			 * Scrolls vertically document body.
+			 * @param  {Number}		scrollDelta
+			 */
+			scrollTop : function(value) {
+				document.body.scrollTop = value;
+			},
+
+
 		},
 
 	});

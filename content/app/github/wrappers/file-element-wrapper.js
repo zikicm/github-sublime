@@ -12,6 +12,7 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		$statics : {
 
 			CLASS_NAME : 'file js-details-container',
+			CLASS_FILE_HEADER : 'js-selectable-text',
 
 			/**
 			 * Fet all wrappers for all elements in root.
@@ -37,6 +38,18 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		 */
 		constructor : function (domElement) {
 			FileElementWrapper.$super.call(this, domElement);
+			this._fileName = null;
+			this._init();
+		},
+
+		/**
+		 * File name.
+		 * @type {String}
+		 */
+		fileName : {
+			get : function() {
+				return this._fileName;
+			}
 		},
 
 		/**
@@ -45,6 +58,18 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		 */
 		getFileData : function () {
 			return FileDataElementWrapper.getFromElement(this._domElement);
+		},
+
+		/**
+		 * Initializes object fields.
+		 */
+		_init : function() {
+
+			// Get file name from file header dom
+			var fileTextSpan = this._domElement.getElementsByClassName(
+				FileElementWrapper.CLASS_FILE_HEADER);
+			this._fileName = fileTextSpan[0].getAttribute("title");
+
 		},
 
 	});
