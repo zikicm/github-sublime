@@ -1,5 +1,8 @@
 define("content/app/models/box", function(require, exports, module) {
 
+	// imports
+	var Point = require("content/app/models/point");
+
 	/**
 	 * Box model.
 	 */
@@ -103,6 +106,18 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
+		 * Center point.
+		 * @type {Point}
+		 */
+		center : {
+			get : function () {
+				var x = this._left + this._width / 2;
+				var y = this._top + this._height / 2;
+				return new Point(x, y);
+			},
+		},
+
+		/**
 		 * Translate current box.
 		 * @param  {Number} x
 		 * @param  {Number} y
@@ -141,6 +156,36 @@ define("content/app/models/box", function(require, exports, module) {
 			}
 
 			return intersection;
+		},
+
+		/**
+		 * Distance to point. If point is in Box, then distance is 0.
+		 * @param  {Point} point
+		 * @return {Number}
+		 */
+		distanceToPoint : function (point) {
+			var distance = 0;
+			var closestX = NaN;
+			var closestY = NaN;
+
+			if (point.x < this.left) {
+				closestX = this.left;
+			} else if (point.x > this.right) {
+				closestX = this.right;
+			}
+
+			if (point.y < this.top) {
+				closestY = this.top;
+			} else if (point.y > this.bottom) {
+				closestY = this.bottom;
+			}
+
+			if (!isNaN(closestX) && !isNaN(closetY)) {
+				var closestPoint = new Point(closestX, closetY);
+				distance = closestPoint.distanceToPoint(point);
+			}
+
+			return distance;
 		},
 
 	});

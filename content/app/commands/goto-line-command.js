@@ -19,6 +19,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		constructor : function () {
 			GotoLineCommand.$super.call(this);
 
+			this._file = null;
 			this._popup = null;
 			this._onSubmitHandler = this._onSubmit.bind(this);
 			this._onCloseHandler = this._onClose.bind(this);
@@ -28,11 +29,12 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * Override. Run command.
 		 */
 		run : function () {
-			this._popup = new GotoLinePopup();
+			this._file = CommitPageHelper.getCurrentFile();
+			// TODO: Highlight file
 
+			this._popup = new GotoLinePopup();
 			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
 			this._popup.on(Event.CLOSE, this._onCloseHandler);
-
 			PopupManager.global().show(this._popup);
 		},
 
@@ -49,11 +51,11 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_closePopup : function () {
 			if (this._popup) {
+				// TODO: Remove highlight from file
+
 				this._popup.off(Event.SUBMIT, this._onSubmitHandler);
 				this._popup.off(Event.CLOSE, this._onCloseHandler);
-
 				PopupManager.global().hide(this._popup);
-
 				this._popup = null;
 			}
 		},
@@ -99,9 +101,8 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		_findLine : function (lineNumber) {
 			var line = null;
 
-			var currentFile = CommitPageHelper.getCurrentFile();
-			if (currentFile) {
-				var fileData = currentFile.getFileData();
+			if (this._file) {
+				var fileData = this._file.getFileData();
 				var lines = fileData.getLines();
 				// Find line which line contains lineNumber.
 				for (var i = 0; i < lines.length; i++) {
