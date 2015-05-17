@@ -83,6 +83,7 @@
         // Extension code
         "shared/constants.js",
 
+        "content/app/models/point.js",
         "content/app/models/box.js",
 
         "content/app/events/event.js",
@@ -90,7 +91,10 @@
 
         "content/app/github/window-helper.js",
         "content/app/github/wrappers/dom-element-wrapper.js",
+        "content/app/github/wrappers/abstract-line-element-wrapper.js",
+        "content/app/github/wrappers/expandable-line-element-wrapper.js",
         "content/app/github/wrappers/line-element-wrapper.js",
+        "content/app/github/wrappers/line-element-factory.js",
         "content/app/github/wrappers/file-data-element-wrapper.js",
         "content/app/github/wrappers/file-element-wrapper.js",
         "content/app/github/commit-page-helper.js",

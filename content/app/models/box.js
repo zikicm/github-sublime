@@ -159,33 +159,36 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
+		 * Check if box contains point.
+		 * @param  {Point} point
+		 * @return {Boolean}
+		 */
+		containsPoint : function (point) {
+			return (this.left <= point.x &&
+					this.top <= point.y &&
+					this.right >= point.x &&
+					this.bottom >= point.y);
+		},
+
+		/**
+		 * Get closest point in box to provided point.
+		 * @param  {Point} point
+		 * @return {Point}
+		 */
+		closestPoint : function (point) {
+			var x = Math.min(Math.max(point.x, this.left), this.right);
+			var y = Math.min(Math.max(point.y, this.top), this.bottom);
+			return new Point(x, y);
+		},
+
+		/**
 		 * Distance to point. If point is in Box, then distance is 0.
 		 * @param  {Point} point
 		 * @return {Number}
 		 */
 		distanceToPoint : function (point) {
-			var distance = 0;
-			var closestX = NaN;
-			var closestY = NaN;
-
-			if (point.x < this.left) {
-				closestX = this.left;
-			} else if (point.x > this.right) {
-				closestX = this.right;
-			}
-
-			if (point.y < this.top) {
-				closestY = this.top;
-			} else if (point.y > this.bottom) {
-				closestY = this.bottom;
-			}
-
-			if (!isNaN(closestX) && !isNaN(closetY)) {
-				var closestPoint = new Point(closestX, closetY);
-				distance = closestPoint.distanceToPoint(point);
-			}
-
-			return distance;
+			var closestPoint = this.closestPoint(point);
+			return closestPoint.distanceToPoint(point);
 		},
 
 	});

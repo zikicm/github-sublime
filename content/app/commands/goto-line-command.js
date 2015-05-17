@@ -30,12 +30,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		run : function () {
 			this._file = CommitPageHelper.getCurrentFile();
-			// TODO: Highlight file
-
-			this._popup = new GotoLinePopup();
-			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
-			this._popup.on(Event.CLOSE, this._onCloseHandler);
-			PopupManager.global().show(this._popup);
+			this._showPopup();
 		},
 
 		/**
@@ -43,7 +38,20 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		cancel : function () {
 			this._closePopup();
+			this._file = null;
 			this._triggerCancel();
+		},
+
+		/**
+		 * Show popup.
+		 */
+		_showPopup : function () {
+			this._closePopup();
+			// TODO: Highlight file
+			this._popup = new GotoLinePopup();
+			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
+			this._popup.on(Event.CLOSE, this._onCloseHandler);
+			PopupManager.global().show(this._popup);
 		},
 
 		/**
@@ -87,7 +95,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 				var line = this._findLine(lineNumber);
 				if (line) {
 					// TODO: Scroll to this location and highlight it somehow
-					alert("Goto line: " + lineNumber + " -> closest line: " + line.newNumberRange);
+					alert("Goto line: " + lineNumber + " -> closest line: " + line);
 				}
 			}
 			this._triggerComplete();

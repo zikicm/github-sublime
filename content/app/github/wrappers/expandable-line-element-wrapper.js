@@ -22,7 +22,6 @@ define("content/app/github/wrappers/expandable-line-element-wrapper", function(r
 			ExpandableLineElementWrapper.$super.call(this, domElement);
 			this._oldNumberRange = null;
 			this._newNumberRange = null;
-			this._proccessElement();
 		},
 
 		/**

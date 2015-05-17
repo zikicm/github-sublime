@@ -1,7 +1,7 @@
 define("content/app/github/commit-page-helper", function(require, exports, module) {
 
 	// imports
-	var WindowHelper = require("content/app/github/commit-page-helper");
+	var WindowHelper = require("content/app/github/window-helper");
 	var FileElementWrapper = require("content/app/github/wrappers/file-element-wrapper");
 
 	/**
@@ -25,8 +25,9 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 			 * @return {FileElementWrapper}
 			 */
 			getCurrentFile : function () {
+				var files = CommitPageHelper.getAllFiles();
 				var viewport = WindowHelper.getViewportClientBoundingBox();
-				var viewportCenter = viewport.center();
+				var viewportCenter = viewport.center;
 
 				var file = null;
 				var minDistance = Number.MAX_VALUE;

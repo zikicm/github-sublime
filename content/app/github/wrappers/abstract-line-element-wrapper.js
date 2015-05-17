@@ -8,6 +8,12 @@ define("content/app/github/wrappers/abstract-line-element-wrapper", function(req
 	 */
 	var AbstractLineElementWrapper = Class(DomElementWrapper, {
 
+		$statics : {
+
+			TAG_NAME : 'tr',
+
+		},
+
 		/**
 		 * Constructor.
 		 * @param  {Element} domElement

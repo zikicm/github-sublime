@@ -1,6 +1,7 @@
-define("content/app/github/wrappers/line-element-wrapper", function(require, exports, module) {
+define("content/app/github/wrappers/line-element-factory", function(require, exports, module) {
 
 	// imports
+	var AbstractLineElementWrapper = require("content/app/github/wrappers/abstract-line-element-wrapper");
 	var LineElementWrapper = require("content/app/github/wrappers/line-element-wrapper");
 	var ExpandableLineElementWrapper = require("content/app/github/wrappers/expandable-line-element-wrapper");
 
@@ -11,10 +12,11 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 
 		$statics : {
 
-			TAG_NAME : 'tr',
-
 			/**
 			 * Populate expandable line ranges.
+			 * Expanded button will never be surrounded with changed line (red or green).
+			 * It is expected that line above and below expanded button contains both 
+			 * old and new line number.
 			 * @param  {AbstractLineElementWrapper[]} lines
 			 */
 			_populateExpandableRanges : function (lines) {
@@ -53,7 +55,7 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 			 * @return {AbstractLineElementWrapper[]}
 			 */
 			getAllFromElement : function (rootElement) {
-				var domElements = rootElement.getElementsByTagName(LineElementFactory.TAG_NAME);
+				var domElements = rootElement.getElementsByTagName(AbstractLineElementWrapper.TAG_NAME);
 				var lines = [];
 
 				for (var i = 0; i < domElements.length; i++) {
