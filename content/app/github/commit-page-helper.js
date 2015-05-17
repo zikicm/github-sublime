@@ -1,6 +1,7 @@
 define("content/app/github/commit-page-helper", function(require, exports, module) {
 
 	// imports
+	var WindowHelper = require("content/app/github/window-helper");
 	var FileElementWrapper = require("content/app/github/wrappers/file-element-wrapper");
 
 	/**
@@ -20,17 +21,27 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 
 			/**
 			 * Get wrapper for file DOM element that is in viewport.
+			 * NOTE: Consider different visible file to be selected.
 			 * @return {FileElementWrapper}
 			 */
 			getCurrentFile : function () {
 				var files = CommitPageHelper.getAllFiles();
+				var viewport = WindowHelper.getViewportClientBoundingBox();
+				var viewportCenter = viewport.center;
 
 				var file = null;
+				var minDistance = Number.MAX_VALUE;
+
 				for (var i = 0; i < files.length; i++) {
-					if (files[i].isInViewport) {
-						file = files[i];
-						break;
+
+					var curFile = files[i];
+					var distance = curFile.clientBoundingBox.distanceToPoint(viewportCenter);
+
+					if (distance < minDistance) {
+						file = curFile;
+						minDistance = distance;
 					}
+
 				}
 
 				return file;

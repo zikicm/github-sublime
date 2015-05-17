@@ -29,6 +29,18 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 		},
 
 		/**
+		 * Get visible bounding box in viewport.
+		 * @type {Box}
+		 */
+		visibleClientBoundingBox : {
+			get : function () {
+				var clientBBox = this.clientBoundingBox;
+				var clientViewport = WindowHelper.getViewportClientBoundingBox();
+				return clientBBox.intersection(clientViewport);
+			},
+		},
+
+		/**
 		 * Bounding box of DOM element relative to document.
 		 * @type {Box}
 		 */
@@ -47,9 +59,7 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 		 */
 		isInViewport : {
 			get : function () {
-				var clientBBox = this.clientBoundingBox;
-				var clientViewport = WindowHelper.getViewportClientBoundingBox();
-				return (clientBBox.intersection(clientViewport) !== null);
+				return (this.visibleClientBoundingBox !== null);
 			},
 		},
 

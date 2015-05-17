@@ -1,5 +1,8 @@
 define("content/app/models/box", function(require, exports, module) {
 
+	// imports
+	var Point = require("content/app/models/point");
+
 	/**
 	 * Box model.
 	 */
@@ -93,6 +96,28 @@ define("content/app/models/box", function(require, exports, module) {
 		},
 
 		/**
+		 * Box area.
+		 * @type {Number}
+		 */
+		area : {
+			get : function () {
+				return this._width * this._height;
+			},
+		},
+
+		/**
+		 * Center point.
+		 * @type {Point}
+		 */
+		center : {
+			get : function () {
+				var x = this._left + this._width / 2;
+				var y = this._top + this._height / 2;
+				return new Point(x, y);
+			},
+		},
+
+		/**
 		 * Translate current box.
 		 * @param  {Number} x
 		 * @param  {Number} y
@@ -131,6 +156,39 @@ define("content/app/models/box", function(require, exports, module) {
 			}
 
 			return intersection;
+		},
+
+		/**
+		 * Check if box contains point.
+		 * @param  {Point} point
+		 * @return {Boolean}
+		 */
+		containsPoint : function (point) {
+			return (this.left <= point.x &&
+					this.top <= point.y &&
+					this.right >= point.x &&
+					this.bottom >= point.y);
+		},
+
+		/**
+		 * Get closest point in box to provided point.
+		 * @param  {Point} point
+		 * @return {Point}
+		 */
+		closestPoint : function (point) {
+			var x = Math.min(Math.max(point.x, this.left), this.right);
+			var y = Math.min(Math.max(point.y, this.top), this.bottom);
+			return new Point(x, y);
+		},
+
+		/**
+		 * Distance to point. If point is in Box, then distance is 0.
+		 * @param  {Point} point
+		 * @return {Number}
+		 */
+		distanceToPoint : function (point) {
+			var closestPoint = this.closestPoint(point);
+			return closestPoint.distanceToPoint(point);
 		},
 
 	});

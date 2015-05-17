@@ -1,35 +1,17 @@
 define("content/app/github/wrappers/line-element-wrapper", function(require, exports, module) {
 
 	// imports
-	var DomElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
+	var AbstractLineElementWrapper = require("content/app/github/wrappers/abstract-line-element-wrapper");
 
 	/**
 	 * Wrapper for line DOM element.
 	 */
-	var LineElementWrapper = Class(DomElementWrapper, {
+	var LineElementWrapper = Class(AbstractLineElementWrapper, {
 
 		$statics : {
 
-			TAG_NAME : 'tr',
+			CLASS_NAME : '',
 			NUMBER_ATTR_NAME : 'data-line-number',
-
-			/**
-			 * Get wrappers for all DOM elements in root.
-			 * @param  {Element} 			rootElement
-			 * @return {LineElementWrapper}
-			 */
-			getAllFromElement : function (rootElement) {
-				var domElements = rootElement.getElementsByTagName(LineElementWrapper.TAG_NAME);
-
-				var lines = [];
-				for (var i = 0; i < domElements.length; i++) {
-					var domElement = domElements[i];
-					// TODO: Consider additional filtering.
-					lines.push(new LineElementWrapper(domElement));
-				}
-
-				return lines;
-			},
 
 		},
 
@@ -39,13 +21,13 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		 */
 		constructor : function (domElement) {
 			LineElementWrapper.$super.call(this, domElement);
-			this._oldNumber = null;
-			this._newNumber = null;
+			this._oldNumber = NaN;
+			this._newNumber = NaN;
 			this._proccessElement();
 		},
 
 		/**
-		 * Get old code line.
+		 * Get old code line number.
 		 * @type {Number}
 		 */
 		oldNumber : {
@@ -55,13 +37,22 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		},
 
 		/**
-		 * Get new code number.
+		 * Get new code line number.
 		 * @type {Number}
 		 */
 		newNumber : {
 			get : function () {
 				return this._newNumber;
 			},
+		},
+
+		/**
+		 * Override. Check if current line contains or represents specified line.
+		 * @param {Number} 		lineNumber
+		 * @return {Boolean}
+		 */
+		containsLine : function (lineNumber) {
+			return (this._newNumber === lineNumber);
 		},
 
 		/**
@@ -79,14 +70,14 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		 * @return {Number}
 		 */
 		_extractLineNumber : function (domElement) {
-			var lineNumber = null;
+			var value = NaN;
 
 			if (domElement && domElement.attributes.hasOwnProperty(LineElementWrapper.NUMBER_ATTR_NAME)) {
 				var attr = domElement.attributes[LineElementWrapper.NUMBER_ATTR_NAME];
-				lineNumber = parseInt(attr.value);
+				value = parseInt(attr.value);
 			}
 
-			return lineNumber;
+			return value;
 		},
 
 	});

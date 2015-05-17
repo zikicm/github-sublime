@@ -2,7 +2,7 @@ define("content/app/github/wrappers/file-data-element-wrapper", function(require
 
 	// imports
 	var DomElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
-	var LineElementWrapper = require("content/app/github/wrappers/line-element-wrapper");
+	var LineElementFactory = require("content/app/github/wrappers/line-element-factory");
 
 	/**
 	 * Wrapper for file data DOM element.
@@ -41,10 +41,10 @@ define("content/app/github/wrappers/file-data-element-wrapper", function(require
 
 		/**
 		 * Get all lines wrappers from this data.
-		 * @return {LineElementWrapper[]}
+		 * @return {AbstractLineElementWrapper[]}
 		 */
 		getLines : function () {
-			return LineElementWrapper.getAllFromElement(this._domElement);
+			return LineElementFactory.getAllFromElement(this._domElement);
 		},
 
 	});
