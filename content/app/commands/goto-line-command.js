@@ -47,7 +47,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_showPopup : function () {
 			this._closePopup();
-			this._file.isGlow = true;
+			this._file.isHighlighted = true;
 			this._popup = new GotoLinePopup();
 			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
 			this._popup.on(Event.CLOSE, this._onCloseHandler);
@@ -59,7 +59,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_closePopup : function () {
 			if (this._popup) {
-				this._file.isGlow = false;
+				this._file.isHighlighted = false;
 				this._popup.off(Event.SUBMIT, this._onSubmitHandler);
 				this._popup.off(Event.CLOSE, this._onCloseHandler);
 				PopupManager.global().hide(this._popup);

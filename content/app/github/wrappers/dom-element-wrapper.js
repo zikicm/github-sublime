@@ -9,6 +9,12 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 	 */
 	var DomElementWrapper = Class(Object, {
 
+		$statics : {
+
+			STYLE_NAME_HIGHLIGHT : "plugin-element-highlight",
+
+		},
+
 		/**
 		 * Constructor.
 		 * @param  {Element} domElement
@@ -17,15 +23,19 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 			this._domElement = domElement;
 		},
 
-		isGlow : {
+		/**
+		 * Check or set dom element highlight.
+		 * @type {Boolean}
+		 */
+		isHighlighted : {
 			get : function () {
-				return this._domElement.classList.contains("plugin-element-glow");
+				return this._domElement.classList.contains(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
 			},
 			set : function (value) {
 				if (value) {
-					this._domElement.classList.add("plugin-element-glow");
+					this._domElement.classList.add(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
 				} else {
-					this._domElement.classList.remove("plugin-element-glow");
+					this._domElement.classList.remove(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
 				}
 			},
 		},
