@@ -17,6 +17,19 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 			this._domElement = domElement;
 		},
 
+		isGlow : {
+			get : function () {
+				return this._domElement.classList.contains("plugin-element-glow");
+			},
+			set : function (value) {
+				if (value) {
+					this._domElement.classList.add("plugin-element-glow");
+				} else {
+					this._domElement.classList.remove("plugin-element-glow");
+				}
+			},
+		},
+
 		/**
 		 * Bounding box of DOM element relative to viewport top-left corner.
 		 * @type {Box}
