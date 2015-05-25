@@ -62,7 +62,8 @@
         "https://github.com/*"
       ],
       "css": [
-        "content/css/popup.css"
+        "content/css/popup.css",
+        "content/css/github.css"
       ],
       "js": [
         // External libraries

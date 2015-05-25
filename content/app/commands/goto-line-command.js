@@ -7,6 +7,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 	var GotoLinePopup = require("content/app/ui/popups/goto-line-popup");
 	var AbstractCommand = require("content/app/commands/abstract-command");
 	var CommitPageHelper = require("content/app/github/commit-page-helper");
+	var WindowHelper = require("content/app/github/window-helper");
 
 	/**
 	 * This command is used for navigating used in current visible file.
@@ -47,7 +48,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_showPopup : function () {
 			this._closePopup();
-			// TODO: Highlight file
+			this._file.isHighlighted = true;
 			this._popup = new GotoLinePopup();
 			this._popup.on(Event.SUBMIT, this._onSubmitHandler);
 			this._popup.on(Event.CLOSE, this._onCloseHandler);
@@ -59,8 +60,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_closePopup : function () {
 			if (this._popup) {
-				// TODO: Remove highlight from file
-
+				this._file.isHighlighted = false;
 				this._popup.off(Event.SUBMIT, this._onSubmitHandler);
 				this._popup.off(Event.CLOSE, this._onCloseHandler);
 				PopupManager.global().hide(this._popup);
@@ -94,8 +94,7 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 			if (!isNaN(lineNumber)) {
 				var line = this._findLine(lineNumber);
 				if (line) {
-					// TODO: Scroll to this location and highlight it somehow
-					alert("Goto line: " + lineNumber + " -> closest line: " + line);
+					this._navigateToLine(line);
 				}
 			}
 			this._triggerComplete();
@@ -122,6 +121,20 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 			}
 
 			return line;
+		},
+
+		/**
+		 * Scroll to line, highlight and focus it.
+		 * @param  {LineElementWrapper} line
+		 */
+		_navigateToLine : function (line) {
+			var viewportBBox = WindowHelper.getViewportBoundingBox();
+			var lineBBox = line.boundingBox;
+			var lineCenter = lineBBox.center;
+			var scrollTop = lineCenter.y - viewportBBox.height / 2;
+			WindowHelper.scrollTop(scrollTop);
+			// TODO: highlight line
+			// This can be very tricky...
 		},
 
 		/**

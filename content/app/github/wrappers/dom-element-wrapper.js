@@ -9,12 +9,35 @@ define("content/app/github/wrappers/dom-element-wrapper", function(require, expo
 	 */
 	var DomElementWrapper = Class(Object, {
 
+		$statics : {
+
+			STYLE_NAME_HIGHLIGHT : "plugin-element-highlight",
+
+		},
+
 		/**
 		 * Constructor.
 		 * @param  {Element} domElement
 		 */
 		constructor : function (domElement) {
 			this._domElement = domElement;
+		},
+
+		/**
+		 * Check or set dom element highlight.
+		 * @type {Boolean}
+		 */
+		isHighlighted : {
+			get : function () {
+				return this._domElement.classList.contains(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
+			},
+			set : function (value) {
+				if (value) {
+					this._domElement.classList.add(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
+				} else {
+					this._domElement.classList.remove(DomElementWrapper.STYLE_NAME_HIGHLIGHT);
+				}
+			},
 		},
 
 		/**
