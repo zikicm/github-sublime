@@ -128,13 +128,14 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 * @param  {LineElementWrapper} line
 		 */
 		_navigateToLine : function (line) {
+			// Scroll to line
 			var viewportBBox = WindowHelper.getViewportBoundingBox();
 			var lineBBox = line.boundingBox;
 			var lineCenter = lineBBox.center;
 			var scrollTop = lineCenter.y - viewportBBox.height / 2;
 			WindowHelper.scrollTop(scrollTop);
-			// TODO: highlight line
-			// This can be very tricky...
+			// Select code in line
+			line.selectCode();
 		},
 
 		/**
