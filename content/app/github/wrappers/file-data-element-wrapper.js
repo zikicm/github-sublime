@@ -1,6 +1,7 @@
 define("content/app/github/wrappers/file-data-element-wrapper", function(require, exports, module) {
 
 	// imports
+	var WindowHelper = require("content/app/github/window-helper");
 	var DomElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
 	var LineElementFactory = require("content/app/github/wrappers/line-element-factory");
 
@@ -45,6 +46,15 @@ define("content/app/github/wrappers/file-data-element-wrapper", function(require
 		 */
 		getLines : function () {
 			return LineElementFactory.getAllFromElement(this._domElement);
+		},
+
+		/**
+		 * Find all ranges that contains specified text.
+		 * @param {String} text
+		 * @return {Range[]}
+		 */
+		findTextRanges : function (text) {
+			return WindowHelper.findTextRangesInElement(this._domElement, text);
 		},
 
 	});

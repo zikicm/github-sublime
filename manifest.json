@@ -84,6 +84,10 @@
         // Extension code
         "shared/constants.js",
 
+        "content/app/algo/three/abstract-visitor.js",
+        "content/app/algo/three/find-text-ranges-visitor.js",
+        "content/app/algo/three/traversing.js",
+
         "content/app/models/point.js",
         "content/app/models/box.js",
 
@@ -108,6 +112,7 @@
         "content/app/commands/abstract-command.js",
         "content/app/commands/goto-line-command.js",
         "content/app/commands/goto-file-command.js",
+        "content/app/commands/highlight-text-command.js",
         "content/app/commands/command-manager.js",
 
         "content/app/main.js"

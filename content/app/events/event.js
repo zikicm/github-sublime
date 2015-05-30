@@ -30,6 +30,12 @@ define("content/app/events/event", function(require, exports, module) {
 			 * @type {String}
 			 */
 			CANCEL : 'cancel',
+
+			/**
+			 * Select event type.
+			 * @type {String}
+			 */
+			SELECT : 'select',
 		},
 
 		/**
