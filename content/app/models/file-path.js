@@ -6,8 +6,7 @@ define("content/app/models/file-path", function(require, exports, module) {
 	var FilePath = Class({
 
 		$statics : {
-			// TODO : Check if regex is valid
-			REGEX_FOLDER_SEPARATOR : /\/|\)/g,
+			REGEX_FOLDER_SEPARATOR : /[\/\\]/g,
 			EXTENSION_SEPARATOR : '.',
 		},
 
