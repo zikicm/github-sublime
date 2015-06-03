@@ -6,7 +6,6 @@ define("content/app/main", function(require, exports, module) {
 	var Connection = require("libs/rpc/connection");
 	var Commands = require("shared/constants").Commands;
 
-	var Event = require("content/app/events/event");
 	var CommandManager = require("content/app/commands/command-manager");
 	var GotoLineCommand = require("content/app/commands/goto-line-command");
 	var GotoFileCommand = require("content/app/commands/goto-file-command");
@@ -34,7 +33,7 @@ define("content/app/main", function(require, exports, module) {
 		commandManager.runCommand(command);
 	});
 
-	// Listen for command triggers in content
+	// Run background commands
 
 	var _highlightTextCommand = new HighlightTextCommand();
 	_highlightTextCommand.run();

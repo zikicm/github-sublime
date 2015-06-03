@@ -47,6 +47,11 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 				return file;
 			},
 
+			/**
+			 * Find ranges of provided text in all file DOM elements.
+			 * @param  {String} text
+			 * @return {Range}
+			 */
 			findTextRangesInFiles : function (text) {
 				var files = CommitPageHelper.getAllFiles();
 				var rangesArrays = files.map(function (file) {
@@ -60,6 +65,7 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 
 	});
 
+	// export
 	module.exports = CommitPageHelper;
 
 });

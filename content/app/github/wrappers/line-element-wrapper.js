@@ -56,26 +56,6 @@ define("content/app/github/wrappers/line-element-wrapper", function(require, exp
 		},
 
 		/**
-		 * Find all ranges that contains specified text.
-		 * @param {String} text
-		 * @return {Range[]} 
-		 */
-		findTextRanges : function (text) {
-			var results = [];
-
-			var contentText = this._domElement.innerText;
-			var index = contentText.indexOf(text);
-			if (index !== -1) {
-				// var range = document.createRange();
-				// range.setStart(this._domElement, index);
-				// range.setEnd(this._domElement, index + text.length);
-				// results.push(range);
-			}
-
-			return results;
-		},
-
-		/**
 		 * Process element content to set wrapper state.
 		 */
 		_proccessElement : function () {

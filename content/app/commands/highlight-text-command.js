@@ -37,16 +37,31 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 			WindowHelper.off(Event.SELECT, this._onSelectHandler);
 		},
 
+		/**
+		 * Select text event handler.
+		 * @param  {Event} evt
+		 */
 		_onSelect : function (evt) {
 			this._clearHightlights();
-			var text = evt.data;
+			this._highlightText(evt.data);
+		},
+
+		/**
+		 * Create highlights for provided text.
+		 * @param  {String} text
+		 */
+		_highlightText : function (text) {
 			if (text && text.length) {
 				var ranges = CommitPageHelper.findTextRangesInFiles(text);
-				this._createHighlights(ranges);
+				this._highlightRanges(ranges);
 			}
 		},
 
-		_createHighlights : function (ranges) {
+		/**
+		 * Create highlights for provided ranges and add them to page.
+		 * @param  {Range[]} ranges
+		 */
+		_highlightRanges : function (ranges) {
 			for (var i = 0; i < ranges.length; i++) {
 				var range = ranges[i];
 				var highlight = this._createHighlight(range);
@@ -55,22 +70,32 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 			}
 		},
 
+		/**
+		 * Create highlight DOM element for provided range.
+		 * @param  {Range} 		range
+		 * @return {Element}
+		 */
 		_createHighlight : function (range) {
+			// Calculate position on page
 			var clientRect = range.getBoundingClientRect();
 			var clientBBox = Box.createFromClientRect(clientRect);
 			var viewport = WindowHelper.getViewportBoundingBox();
 			clientBBox.translate(viewport.left, viewport.top);
 
+			// Create and configure DOM element
 			var highlight = document.createElement("div");
-			highlight.style.position = "absolute";
+			highlight.className = "text-highlight";
 			highlight.style.left = clientBBox.left + "px";
 			highlight.style.top = clientBBox.top + "px";
 			highlight.style.width = clientBBox.width + "px";
 			highlight.style.height = clientBBox.height + "px";
-			highlight.style.border = "1px solid red";
+
 			return highlight;
 		},
 
+		/**
+		 * Remove all highlights from page.
+		 */
 		_clearHightlights : function () {
 			while (this._highlights.length > 0) {
 				var highlight = this._highlights.pop();
@@ -80,6 +105,7 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 
 	});
 
+	// export
 	module.exports = HighlightTextCommand;
 
 });

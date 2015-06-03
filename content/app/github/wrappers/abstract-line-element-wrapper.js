@@ -51,15 +51,6 @@ define("content/app/github/wrappers/abstract-line-element-wrapper", function(req
 			}
 		},
 
-		/**
-		 * Find all ranges that contains specified text.
-		 * @param {String} text
-		 * @return {Range[]} 
-		 */
-		findTextRanges : function (text) {
-			return [];
-		},
-
 	});
 
 	module.exports = AbstractLineElementWrapper;

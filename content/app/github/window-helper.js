@@ -14,7 +14,7 @@ define("content/app/github/window-helper", function(require, exports, module) {
 
 		$statics : {
 
-			INTERVAL_TICK : 300,	// ms
+			INTERVAL_TICK : 100,	// ms
 
 		},
 
@@ -24,11 +24,11 @@ define("content/app/github/window-helper", function(require, exports, module) {
 		constructor : function () {
 			WindowHelper.$super.call(this);
 
+			this._selectedText = '';
 			this._intervalRef = setInterval(
 				this._onIntervalTick.bind(this),
 				WindowHelper.INTERVAL_TICK
 			);
-			this._selectedText = '';
 		},
 
 		/**
@@ -62,18 +62,37 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			document.body.scrollTop = value;
 		},
 
+		/**
+		 * Append DOM element to page.
+		 * @param  {Element} child
+		 */
 		appendChild : function (child) {
 			document.body.appendChild(child);
 		},
 
+		/**
+		 * Remove DOM element from page.
+		 * @param  {Element} child
+		 */
 		removeChild : function (child) {
 			document.body.removeChild(child);
 		},
 
+		/**
+		 * Find ranges of provided text in page.
+		 * @param  {String} 	text
+		 * @return {Range[]}
+		 */
 		findTextRanges : function (text) {
 			return WindowHelper.findTextRangesInElement(document.body, text);
 		},
 
+		/**
+		 * Find ranges of provided text in DOM element.
+		 * @param  {Element} 	root
+		 * @param  {String} 	text
+		 * @return {Range[]}
+		 */
 		findTextRangesInElement : function (root, text) {
 			var traversing = new Traversing(root);
 			var visitor = new FindTextRangesVisitor(text);
@@ -81,6 +100,10 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			return visitor.ranges;
 		},
 
+		/**
+		 * Check if selected text have changed.
+		 * If it does trigger SELECT event.
+		 */
 		_checkSelectedText : function () {
 			var selection = window.getSelection();
 			var newSelectedText = selection.toString();
@@ -91,12 +114,16 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			}
 		},
 
+		/**
+		 * Trigger specific actions periodically.
+		 */
 		_onIntervalTick : function () {
 			this._checkSelectedText();
 		},
 
 	});
 
+	// export
 	module.exports = new WindowHelper();
 
 });
