@@ -54,11 +54,14 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 			 */
 			findTextRangesInFiles : function (text) {
 				var files = CommitPageHelper.getAllFiles();
-				var rangesArrays = files.map(function (file) {
+				var ranges = [];
+				for (var i = 0; i < files.length; i++) {
+					var file = files[i];
 					var data = file.getFileData();
-					return data.findTextRanges(text);
-				});
-				return Array.prototype.concat.apply([], rangesArrays);
+					var fileRanges = data.findTextRanges(text);
+					ranges = ranges.concat(fileRanges);
+				}
+				return ranges;
 			},
 
 		},

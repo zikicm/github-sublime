@@ -17,21 +17,11 @@ define("content/app/algo/three/traversing", function(require, exports, module) {
 			traverse : function (element, visitor) {
 				if (element) {
 					visitor.visit(element);
-					var children = visitor.extractChildren(element);
-					Traversing.traverseList(children, visitor);
-				}
-			},
-
-			/**
-			 * Traverse list of elements with provided visitor.
-			 * @param  {Object[]} 			elements
-			 * @param  {AbstractVisitor} 	visitor
-			 */
-			traverseList : function (elements, visitor) {
-				if (elements) {
-					for (var i = 0; i < elements.length; i++) {
-						var element = elements[i];
-						Traversing.traverse(element, visitor);
+					var children = element.childNodes;
+					if (children && children.length > 0) {
+						for (var i = 0; i < children.length; i++) {
+							Traversing.traverse(children[i], visitor);
+						}
 					}
 				}
 			},

@@ -33,15 +33,6 @@ define("content/app/algo/three/fint-text-ranges-visitor", function(require, expo
 		},
 
 		/**
-		 * Extract child elements from given element.
-		 * @param  {Element} 	node
-		 * @return {Element[]}
-		 */
-		extractChildren : function (node) {
-			return node.childNodes;
-		},
-
-		/**
 		 * Visit given tree node.
 		 * @param  {Element} node
 		 */
