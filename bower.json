@@ -24,7 +24,9 @@
     "tests"
   ],
   "dependencies": {
-    "jsface": "~2.4.1"
+    "jsface": "~2.4.1",
+    "jquery": "~2.1.4",
+    "jquery-ui": "~1.11.4"
   },
   "devDependencies": {
     "qunit": "~1.18.0"

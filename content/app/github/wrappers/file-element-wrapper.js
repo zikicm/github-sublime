@@ -3,6 +3,7 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 	// imports
 	var DomElementWrapper = require("content/app/github/wrappers/dom-element-wrapper");
 	var FileDataElementWrapper = require("content/app/github/wrappers/file-data-element-wrapper");
+	var FilePath = require("content/app/models/file-path");
 
 	/**
 	 * Wrapper for file DOM element.
@@ -38,17 +39,17 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		 */
 		constructor : function (domElement) {
 			FileElementWrapper.$super.call(this, domElement);
-			this._fileName = null;
+			this._filePath = null;
 			this._init();
 		},
 
 		/**
 		 * File name.
-		 * @type {String}
+		 * @type {FilePath}
 		 */
-		fileName : {
+		filePath : {
 			get : function() {
-				return this._fileName;
+				return this._filePath;
 			}
 		},
 
@@ -68,7 +69,8 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 			// Get file name from file header dom
 			var fileTextSpan = this._domElement.getElementsByClassName(
 				FileElementWrapper.CLASS_FILE_HEADER);
-			this._fileName = fileTextSpan[0].getAttribute("title");
+			var fullStringPath = fileTextSpan[0].getAttribute("title");
+			this._filePath = new FilePath( fullStringPath );
 
 		},
 

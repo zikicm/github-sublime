@@ -13,13 +13,22 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 	 */
 	var GotoFilePopup = Class(AbstractPopup, {
 
+		$statics : {
+			DELAY_AUTOCOMPLETE : 0,
+			INDEX_SEARCH_KEY : 1,
+		},
+
 		/**
 		 * GotoFilePopup constructor.
+		 * @param 	{GotoFilePopupEntry[]} 		Array of entries.
 		 */
-		constructor : function () {
+		constructor : function (entries) {
 			GotoFilePopup.$super.call(this);
 
-			this._input = null;
+			this._entries = entries;
+			this._fuzzySet = null;
+
+			this._$input = null;
 			this._onBlurHandler = this._onBlur.bind(this);
 			this._onKeyUpHandler = this._onKeyUp.bind(this);
 
@@ -27,35 +36,72 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 		},
 
 		/**
-		 * Init popup.
+		 * Current selected entry.
+		 * @type {GotoFilePopupEntry}
 		 */
-		_init : function () {
-			// create input
-			this._input = document.createElement('input');
-			this._input.type = 'text';
-			this._input.className = 'popup-goto-file-input';
-			this.view.appendChild(this._input);
-			// create label
-			var label = document.createElement('div');
-			label.className = 'popup-goto-file-label';
-			this.view.appendChild(label);
+		selectedEntry : {
+			get : function() {
+				var inputValue = this._$input.val();
+				var selectedEntry = null;
+				var entries = this._entries;
+
+				for (var i = 0; i < entries.length; i++) {
+					if (inputValue === entries[i].toString()) {
+						selectedEntry = entries[i];
+						break;
+					}
+				}
+
+				return selectedEntry;
+			}
 		},
 
 		/**
 		 * Override. Method called when popup is shown.
 		 */
 		onShow : function () {
-			this.view.addEventListener(DomEvents.FOCUS_OUT, this._onBlurHandler);
-			this._input.addEventListener(DomEvents.KEY_UP, this._onKeyUpHandler);
-			this._input.focus();
+			this._$view.on(DomEvents.FOCUS_OUT, this._onBlurHandler);
+			this._$input.on(DomEvents.KEY_UP, this._onKeyUpHandler);
+			this._$input.focus();
 		},
 
 		/**
 		 * Override. Method called when popup is hidden.
 		 */
 		onHide : function () {
-			this.view.removeEventListener(DomEvents.FOCUS_OUT, this._onBlurHandler);
-			this._input.removeEventListener(DomEvents.KEY_UP, this._onKeyUpHandler);
+			this._$view.off(DomEvents.FOCUS_OUT, this._onBlurHandler);
+			this._$input.off(DomEvents.KEY_UP, this._onKeyUpHandler);
+		},
+
+		/**
+		 * Init popup.
+		 */
+		_init : function () {
+
+			// Fuzzy set
+			this._fuzzySet = new FuzzySet();
+			this._entries.forEach(function(entry) {
+				this._fuzzySet.add( entry.toString() );
+			}, this);
+
+			// create input
+			var input = document.createElement('input');
+			this._$input = $(input);
+			this._$input.prop('type', 'text');
+			this._$input.addClass( 'popup-goto-file-input' );
+			this._$view.append( this._$input );
+
+			// create label
+			var label = document.createElement('div');
+			label.className = 'popup-goto-file-label';
+			this._$view.append(label);
+
+			// init jquery autocomplete widget
+			this._$input.autocomplete({
+				source : this._autoCompleteCallback.bind(this),
+				delay : GotoFilePopup.DELAY_AUTOCOMPLETE,
+			});
+
 		},
 
 		/**
@@ -93,8 +139,29 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 		 * Trigger submit event.
 		 */
 		_triggerSubmit : function () {
-			var event = new Event(Event.SUBMIT, this._input.value);
+			var event = new Event(Event.SUBMIT, this.selectedEntry);
 			this.trigger(event);
+		},
+
+		/**
+		 * Auto complete callback function used by popup.
+		 * @param  {Object}   request     Query request object.
+		 *   @config  {String} term    User query.
+		 * @param  {Function} resultFunc  Function which accepts array of result strings.
+		 */
+		_autoCompleteCallback : function(request, resultFunc) {
+
+			var autoCompleteResults = [];
+			var searchResults = this._fuzzySet.get( request.term );
+
+			if (searchResults) {
+				autoCompleteResults = searchResults.map(function(result) {
+					return result[ GotoFilePopup.INDEX_SEARCH_KEY ];
+				});
+			}
+
+			resultFunc( autoCompleteResults );
+
 		},
 
 	});
