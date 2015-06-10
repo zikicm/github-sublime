@@ -27,5 +27,8 @@
   "homepage": "https://github.com/zikicm/github-sublime",
   "devDependencies": {
     "less": "^2.5.0"
+  },
+  "dependencies": {
+    "fuzzyset.js": "0.0.1"
   }
 }

@@ -14,8 +14,19 @@ define("content/app/ui/popups/abstract-popup", function(require, exports, module
 		constructor : function () {
 			AbstractPopup.$super.call(this);
 
-			this.view = document.createElement('div');
-			this.view.className = "popup-view";
+			view = document.createElement('div');
+			this._$view = $(view);
+			this._$view.addClass( "popup-view" );
+		},
+
+		/**
+		 * View
+		 * @type {DOMElement}
+		 */
+		view : {
+			get : function() {
+				return this._$view.get(0);
+			}
 		},
 
 		/**

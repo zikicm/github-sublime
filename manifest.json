@@ -63,11 +63,17 @@
       ],
       "css": [
         "content/css/popup.css",
+        "bower_components/jquery-ui/themes/smoothness/jquery-ui.css",
         "content/css/github.css"
       ],
       "js": [
-        // External libraries
+        // Bower libraries
         "bower_components/jsface/jsface.js",
+        "bower_components/jquery/dist/jquery.js",
+        "bower_components/jquery-ui/jquery-ui.js",
+
+        // Node libraries
+        "node_modules/fuzzyset.js/lib/fuzzyset.js",
 
         // Define.js
         "libs/core/define.js",
@@ -88,8 +94,10 @@
         "content/app/algo/three/find-text-ranges-visitor.js",
         "content/app/algo/three/traversing.js",
 
+        // Models
         "content/app/models/point.js",
         "content/app/models/box.js",
+        "content/app/models/file-path.js",
 
         "content/app/events/event.js",
         "content/app/events/event-dispatcher.js",
@@ -107,6 +115,7 @@
         "content/app/ui/popups/abstract-popup.js",
         "content/app/ui/popups/goto-line-popup.js",
         "content/app/ui/popups/goto-file-popup.js",
+        "content/app/ui/popups/goto-file-popup-entry.js",
         "content/app/ui/popup-manager.js",
 
         "content/app/commands/abstract-command.js",
