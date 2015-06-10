@@ -9,13 +9,15 @@ define("content/app/main", function(require, exports, module) {
 	var CommandManager = require("content/app/commands/command-manager");
 	var GotoLineCommand = require("content/app/commands/goto-line-command");
 	var GotoFileCommand = require("content/app/commands/goto-file-command");
+	var HighlightTextCommand = require("content/app/commands/highlight-text-command");
 
-	// entrypoint
+	// Entrypoint
+	var commandManager = new CommandManager();
+
+	// Connection to background process
 	var driver = new ExtensionContentDriver();
 	var protocol = new ObjectProtocol();
 	var conn = new Connection(driver, protocol);
-
-	var commandManager = new CommandManager();
 
 	// Register methods
 
@@ -29,6 +31,11 @@ define("content/app/main", function(require, exports, module) {
 	conn.on(Commands.GOTO_FILE, function () {
 		var command = new GotoFileCommand();
 		commandManager.runCommand(command);
-	});	
+	});
+
+	// Run background commands
+
+	var _highlightTextCommand = new HighlightTextCommand();
+	_highlightTextCommand.run();
 
 });
