@@ -12,27 +12,27 @@
       "bower_components/jsface/jsface.js",
 
       // Define.js
-      "libs/core/define.js",
+      "src/libs/core/define.js",
 
       // Internal libraries
-      "libs/rpc/request.js",
-      "libs/rpc/response.js",
-      "libs/rpc/connection.js",
-      "libs/rpc/drivers/abstract-driver.js",
-      "libs/rpc/drivers/extension-background-driver.js",
-      "libs/rpc/protocols/abstract-protocol.js",
-      "libs/rpc/protocols/object-protocol.js",
+      "src/libs/rpc/request.js",
+      "src/libs/rpc/response.js",
+      "src/libs/rpc/connection.js",
+      "src/libs/rpc/drivers/abstract-driver.js",
+      "src/libs/rpc/drivers/extension-background-driver.js",
+      "src/libs/rpc/protocols/abstract-protocol.js",
+      "src/libs/rpc/protocols/object-protocol.js",
 
       // Extension code
-      "shared/constants.js",
-      "background/app/activation.js",
-      "background/app/commands-handling.js"
+      "src/shared/constants.js",
+      "src/background/app/activation.js",
+      "src/background/app/commands-handling.js"
     ],
     "persistent": false
   },
 
   "page_action": {
-    "default_icon": "background/assets/icon.png",
+    "default_icon": "src/background/assets/icon.png",
     "default_title": "GitHub Utilities is active"
   },
 
@@ -62,9 +62,9 @@
         "https://github.com/*"
       ],
       "css": [
-        "content/css/popup.css",
         "bower_components/jquery-ui/themes/smoothness/jquery-ui.css",
-        "content/css/github.css"
+        "src/content/css/popup.css",
+        "src/content/css/github.css"
       ],
       "js": [
         // Bower libraries
@@ -76,55 +76,55 @@
         "node_modules/fuzzyset.js/lib/fuzzyset.js",
 
         // Define.js
-        "libs/core/define.js",
+        "src/libs/core/define.js",
 
         // Internal libraries
-        "libs/rpc/request.js",
-        "libs/rpc/response.js",
-        "libs/rpc/connection.js",
-        "libs/rpc/drivers/abstract-driver.js",
-        "libs/rpc/drivers/extension-content-driver.js",
-        "libs/rpc/protocols/abstract-protocol.js",
-        "libs/rpc/protocols/object-protocol.js",
+        "src/libs/rpc/request.js",
+        "src/libs/rpc/response.js",
+        "src/libs/rpc/connection.js",
+        "src/libs/rpc/drivers/abstract-driver.js",
+        "src/libs/rpc/drivers/extension-content-driver.js",
+        "src/libs/rpc/protocols/abstract-protocol.js",
+        "src/libs/rpc/protocols/object-protocol.js",
 
         // Extension code
-        "shared/constants.js",
+        "src/shared/constants.js",
 
-        "content/app/algo/three/abstract-visitor.js",
-        "content/app/algo/three/find-text-ranges-visitor.js",
-        "content/app/algo/three/traversing.js",
+        "src/content/app/algo/three/abstract-visitor.js",
+        "src/content/app/algo/three/find-text-ranges-visitor.js",
+        "src/content/app/algo/three/traversing.js",
 
         // Models
-        "content/app/models/point.js",
-        "content/app/models/box.js",
-        "content/app/models/file-path.js",
+        "src/content/app/models/point.js",
+        "src/content/app/models/box.js",
+        "src/content/app/models/file-path.js",
 
-        "content/app/events/event.js",
-        "content/app/events/event-dispatcher.js",
+        "src/content/app/events/event.js",
+        "src/content/app/events/event-dispatcher.js",
 
-        "content/app/github/window-helper.js",
-        "content/app/github/wrappers/dom-element-wrapper.js",
-        "content/app/github/wrappers/abstract-line-element-wrapper.js",
-        "content/app/github/wrappers/expandable-line-element-wrapper.js",
-        "content/app/github/wrappers/line-element-wrapper.js",
-        "content/app/github/wrappers/line-element-factory.js",
-        "content/app/github/wrappers/file-data-element-wrapper.js",
-        "content/app/github/wrappers/file-element-wrapper.js",
-        "content/app/github/commit-page-helper.js",
+        "src/content/app/github/window-helper.js",
+        "src/content/app/github/wrappers/dom-element-wrapper.js",
+        "src/content/app/github/wrappers/abstract-line-element-wrapper.js",
+        "src/content/app/github/wrappers/expandable-line-element-wrapper.js",
+        "src/content/app/github/wrappers/line-element-wrapper.js",
+        "src/content/app/github/wrappers/line-element-factory.js",
+        "src/content/app/github/wrappers/file-data-element-wrapper.js",
+        "src/content/app/github/wrappers/file-element-wrapper.js",
+        "src/content/app/github/commit-page-helper.js",
 
-        "content/app/ui/popups/abstract-popup.js",
-        "content/app/ui/popups/goto-line-popup.js",
-        "content/app/ui/popups/goto-file-popup.js",
-        "content/app/ui/popups/goto-file-popup-entry.js",
-        "content/app/ui/popup-manager.js",
+        "src/content/app/ui/popups/abstract-popup.js",
+        "src/content/app/ui/popups/goto-line-popup.js",
+        "src/content/app/ui/popups/goto-file-popup.js",
+        "src/content/app/ui/popups/goto-file-popup-entry.js",
+        "src/content/app/ui/popup-manager.js",
 
-        "content/app/commands/abstract-command.js",
-        "content/app/commands/goto-line-command.js",
-        "content/app/commands/goto-file-command.js",
-        "content/app/commands/highlight-text-command.js",
-        "content/app/commands/command-manager.js",
+        "src/content/app/commands/abstract-command.js",
+        "src/content/app/commands/goto-line-command.js",
+        "src/content/app/commands/goto-file-command.js",
+        "src/content/app/commands/highlight-text-command.js",
+        "src/content/app/commands/command-manager.js",
 
-        "content/app/main.js"
+        "src/content/app/main.js"
       ]
     }
   ],
