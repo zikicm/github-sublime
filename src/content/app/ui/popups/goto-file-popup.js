@@ -60,7 +60,7 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 		 * Override. Method called when popup is shown.
 		 */
 		onShow : function () {
-			this._$view.on(DomEvents.FOCUS_OUT, this._onBlurHandler);
+			this.$view.on(DomEvents.FOCUS_OUT, this._onBlurHandler);
 			this._$input.on(DomEvents.KEY_UP, this._onKeyUpHandler);
 			this._$input.focus();
 		},
@@ -69,7 +69,7 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 		 * Override. Method called when popup is hidden.
 		 */
 		onHide : function () {
-			this._$view.off(DomEvents.FOCUS_OUT, this._onBlurHandler);
+			this.$view.off(DomEvents.FOCUS_OUT, this._onBlurHandler);
 			this._$input.off(DomEvents.KEY_UP, this._onKeyUpHandler);
 		},
 
@@ -85,16 +85,15 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 			}, this);
 
 			// create input
-			var input = document.createElement('input');
-			this._$input = $(input);
+			this._$input = $('<input/>');
 			this._$input.prop('type', 'text');
 			this._$input.addClass( 'popup-goto-file-input' );
-			this._$view.append( this._$input );
+			this.$view.append( this._$input );
 
 			// create label
-			var label = document.createElement('div');
-			label.className = 'popup-goto-file-label';
-			this._$view.append(label);
+			var $label = $('<div/><div>');
+			$label.addClass('popup-goto-file-label');
+			this.$view.append($label);
 
 			// init jquery autocomplete widget
 			var autoCompleteHandler = this._autoCompleteCallback.bind(this);

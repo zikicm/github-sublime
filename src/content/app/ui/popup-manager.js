@@ -31,7 +31,7 @@ define("content/app/ui/popup-manager", function(require, exports, module) {
 		 * @param {DOMElement} container
 		 */
 		constructor : function (container) {
-			this._container = container;
+			this._$container = $(container);
 			this._popupInfo = null;
 		},
 
@@ -42,22 +42,22 @@ define("content/app/ui/popup-manager", function(require, exports, module) {
 		show : function (popup) {
 			this.hide();
 
-			var root = document.createElement("div");
-			root.className = "popup-root";
-			this._container.appendChild(root);
+			var $root = $("<div></div>");
+			$root.addClass("popup-root");
+			this._$container.append($root);
 
-			var vertical = document.createElement("div");
-			vertical.className = "popup-vertical-position";
-			root.appendChild(vertical);
+			var $vertical = $("<div></div>");
+			$vertical.addClass("popup-vertical-position");
+			$root.append($vertical);
 
-			var horizontal = document.createElement("div");
-			horizontal.className = "popup-horizontal-position";
-			vertical.appendChild(horizontal);
+			var $horizontal = $("<div></div>");
+			$horizontal.addClass("popup-horizontal-position");
+			$vertical.append($horizontal);
 
-			horizontal.appendChild(popup.view);
+			$horizontal.append(popup.$view);
 
 			this._popupInfo = {
-				rootView : root,
+				$rootView : $root,
 				popup : popup,
 			};
 
@@ -71,7 +71,7 @@ define("content/app/ui/popup-manager", function(require, exports, module) {
 		hide : function (popup) {
 			if (this._popupInfo && (!popup || this._popupInfo.popup === popup)) {
 				this._popupInfo.popup.onHide();
-				this._container.removeChild(this._popupInfo.rootView);
+				this._popupInfo.$rootView.remove();
 				this._popupInfo = null;
 			}
 		},

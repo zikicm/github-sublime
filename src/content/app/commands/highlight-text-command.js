@@ -82,15 +82,8 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 			var viewport = WindowHelper.getViewportBoundingBox();
 			clientBBox.translate(viewport.left, viewport.top);
 
-			// Create and configure DOM element
-			var highlight = document.createElement("div");
-			highlight.className = "text-highlight";
-			highlight.style.left = clientBBox.left + "px";
-			highlight.style.top = clientBBox.top + "px";
-			highlight.style.width = clientBBox.width + "px";
-			highlight.style.height = clientBBox.height + "px";
-
-			return highlight;
+			// Create DOM element
+			return WindowHelper.createDivElement("text-highlight", clientBBox);
 		},
 
 		/**

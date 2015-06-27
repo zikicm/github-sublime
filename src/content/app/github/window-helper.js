@@ -79,12 +79,39 @@ define("content/app/github/window-helper", function(require, exports, module) {
 		},
 
 		/**
+		 * Create DOM element.
+		 * @param  {String} 	type        	Element type.
+		 * @param  {String} 	className   	Class name.
+		 * @param  {Box} 		boundingBox 	Bounding box of new created element.
+		 * @return {Element}
+		 */
+		createElement : function (type, className, boundingBox) {
+			var element = document.createElement(type);
+			element.className = className;
+			element.style.left = boundingBox.left + "px";
+			element.style.top = boundingBox.top + "px";
+			element.style.width = boundingBox.width + "px";
+			element.style.height = boundingBox.height + "px";
+			return element;
+		},
+
+		/**
+		 * Create DIV DOM element.
+		 * @param  {String} 	className   	Class name.
+		 * @param  {Box} 		boundingBox 	Bounding box of new created div.
+		 * @return {Element}
+		 */
+		createDivElement : function (className, boundingBox) {
+			return this.createElement('div', className, boundingBox);
+		},
+
+		/**
 		 * Find ranges of provided text in page.
 		 * @param  {String} 	text
 		 * @return {Range[]}
 		 */
 		findTextRanges : function (text) {
-			return WindowHelper.findTextRangesInElement(document.body, text);
+			return this.findTextRangesInElement(document.body, text);
 		},
 
 		/**
