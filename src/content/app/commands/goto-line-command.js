@@ -92,50 +92,10 @@ define("content/app/commands/goto-line-command", function(require, exports, modu
 		 */
 		_gotoLine : function (lineNumber) {
 			if (!isNaN(lineNumber)) {
-				var line = this._findLine(lineNumber);
-				if (line) {
-					this._navigateToLine(line);
-				}
+				var hash = this._file.createRightLineHash(lineNumber);
+				WindowHelper.navigateToHash(hash);
 			}
 			this._triggerComplete();
-		},
-
-		/**
-		 * Find closest line to specified line.
-		 * @param  {Number} 			lineNumber
-		 * @return {LineElementWrapper}
-		 */
-		_findLine : function (lineNumber) {
-			var line = null;
-
-			if (this._file) {
-				var fileData = this._file.getFileData();
-				var lines = fileData.getLines();
-				// Find line which line contains lineNumber.
-				for (var i = 0; i < lines.length; i++) {
-					if (lines[i].containsLine(lineNumber)) {
-						line = lines[i];
-						break;
-					}
-				}
-			}
-
-			return line;
-		},
-
-		/**
-		 * Scroll to line, highlight and focus it.
-		 * @param  {LineElementWrapper} line
-		 */
-		_navigateToLine : function (line) {
-			// Scroll to line
-			var viewportBBox = WindowHelper.getViewportBoundingBox();
-			var lineBBox = line.boundingBox;
-			var lineCenter = lineBBox.center;
-			var scrollTop = lineCenter.y - viewportBBox.height / 2;
-			WindowHelper.scrollTop(scrollTop);
-			// Select code in line
-			line.selectCode();
 		},
 
 		/**

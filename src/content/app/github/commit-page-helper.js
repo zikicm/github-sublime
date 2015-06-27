@@ -57,8 +57,7 @@ define("content/app/github/commit-page-helper", function(require, exports, modul
 				var ranges = [];
 				for (var i = 0; i < files.length; i++) {
 					var file = files[i];
-					var data = file.getFileData();
-					var fileRanges = data.findTextRanges(text);
+					var fileRanges = file.findTextRanges(text);
 					ranges = ranges.concat(fileRanges);
 				}
 				return ranges;

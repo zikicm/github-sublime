@@ -32,6 +32,15 @@ define("content/app/github/window-helper", function(require, exports, module) {
 		},
 
 		/**
+		 * Change window location hash.
+		 * Browser will scroll to DOM element by default if hash represents its name.
+		 * @param  {String} hash
+		 */
+		navigateToHash : function (hash) {
+			window.location.hash = "#" + hash;
+		},
+
+		/**
 		 * Get viewport bounding box.
 		 * @return {Box}
 		 */
@@ -52,14 +61,6 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			var width = document.documentElement.clientWidth;
 			var height = document.documentElement.clientHeight;
 			return new Box(0, 0, width, height);
-		},
-
-		/**
-		 * Scrolls vertically document body.
-		 * @param  {Number}		scrollDelta
-		 */
-		scrollTop : function(value) {
-			document.body.scrollTop = value;
 		},
 
 		/**
