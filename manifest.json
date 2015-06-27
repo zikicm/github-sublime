@@ -87,6 +87,12 @@
         "src/libs/rpc/protocols/abstract-protocol.js",
         "src/libs/rpc/protocols/object-protocol.js",
 
+        "src/libs/events/event.js",
+        "src/libs/events/event-dispatcher.js",
+
+        "src/libs/text-selection/text-selection.js",
+        "src/libs/text-selection/text-selection-control.js",
+
         // Extension code
         "src/shared/constants.js",
 
@@ -98,9 +104,6 @@
         "src/content/app/models/point.js",
         "src/content/app/models/box.js",
         "src/content/app/models/file-path.js",
-
-        "src/content/app/events/event.js",
-        "src/content/app/events/event-dispatcher.js",
 
         "src/content/app/github/window-helper.js",
         "src/content/app/github/wrappers/dom-element-wrapper.js",

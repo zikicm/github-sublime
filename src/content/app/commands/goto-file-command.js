@@ -1,8 +1,8 @@
 define("content/app/commands/goto-file-command", function(require, exports, module) {
 
 	// imports
-	var EventDispatcher = require("content/app/events/event-dispatcher");
-	var Event =require("content/app/events/event");
+	var EventDispatcher = require("libs/events/event-dispatcher");
+	var Event =require("libs/events/event");
 	var PopupManager = require("content/app/ui/popup-manager");
 	var GotoFilePopup = require("content/app/ui/popups/goto-file-popup");
 	var GotoFilePopupEntry = require("content/app/ui/popups/goto-file-popup-entry");

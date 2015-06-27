@@ -1,4 +1,4 @@
-define("content/app/events/event", function(require, exports, module) {
+define("libs/events/event", function(require, exports, module) {
 
 	/**
 	 * Event class used by dispatcher.

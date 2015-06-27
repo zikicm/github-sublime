@@ -1,4 +1,4 @@
-define("content/app/events/event-dispatcher", function(require, exports, module) {
+define("libs/events/event-dispatcher", function(require, exports, module) {
 
 	/**
 	 * Class that dispatches events.

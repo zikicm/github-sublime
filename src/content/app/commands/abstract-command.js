@@ -1,6 +1,6 @@
 define("content/app/commands/abstract-command", function(require, exports, module) {
 
-	var EventDispatcher = require("content/app/events/event-dispatcher");
+	var EventDispatcher = require("libs/events/event-dispatcher");
 
 	/**
 	 * Abstract command defines command interface.

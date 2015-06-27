@@ -1,7 +1,8 @@
 define("content/app/commands/highlight-text-command", function(require, exports, module) {
 
 	// imports
-	var Event =require("content/app/events/event");
+	var Event =require("libs/events/event");
+	var TextSelectionControl = require("libs/text-selection/text-selection-control");
 	var AbstractCommand = require("content/app/commands/abstract-command");
 	var CommitPageHelper = require("content/app/github/commit-page-helper");
 	var WindowHelper = require("content/app/github/window-helper");
@@ -11,6 +12,12 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 	 * This command is used for selecting text in files.
 	 */
 	var HighlightTextCommand = Class(AbstractCommand, {
+
+		$statics : {
+
+			WORD_REGEXP : /\w[\w-]*/g,
+
+		},
 
 		/**
 		 * HighlightTextCommand constructor.
@@ -26,7 +33,7 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 		 * Override. Run command.
 		 */
 		run : function () {
-			WindowHelper.on(Event.SELECT, this._onSelectHandler);
+			TextSelectionControl.on(Event.SELECT, this._onSelectHandler);
 		},
 
 		/**
@@ -34,7 +41,7 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 		 */
 		cancel : function () {
 			this._clearHightlights();
-			WindowHelper.off(Event.SELECT, this._onSelectHandler);
+			TextSelectionControl.off(Event.SELECT, this._onSelectHandler);
 		},
 
 		/**
@@ -43,7 +50,30 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 		 */
 		_onSelect : function (evt) {
 			this._clearHightlights();
-			this._highlightText(evt.data);
+
+			var textSelection = evt.data;
+
+			// Highlight only if whole word is selected
+			if (textSelection.ranges.length === 1) {
+
+				var range = textSelection.startRange;
+				var rangeText = range.toString();
+
+				// Check if selected text is word
+				if (HighlightTextCommand.WORD_REGEXP.test(rangeText)) {
+
+					var container = range.commonAncestorContainer;
+					var containerText = container.textContent;
+					var containerWords = containerText.match(HighlightTextCommand.WORD_REGEXP) || [];
+
+					// Check if selected word real word in container
+					if (containerWords.indexOf(rangeText) !== -1) {
+						this._highlightText(textSelection.startRange.toString());
+					}
+
+				}
+
+			}
 		},
 
 		/**
