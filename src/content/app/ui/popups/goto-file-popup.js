@@ -97,9 +97,13 @@ define("content/app/ui/popups/goto-file-popup", function(require, exports, modul
 			this._$view.append(label);
 
 			// init jquery autocomplete widget
+			var autoCompleteHandler = this._autoCompleteCallback.bind(this);
+			var view = this._$view.get(0);
+
 			this._$input.autocomplete({
-				source : this._autoCompleteCallback.bind(this),
+				source : autoCompleteHandler,
 				delay : GotoFilePopup.DELAY_AUTOCOMPLETE,
+				appendTo : view,
 			});
 
 		},
