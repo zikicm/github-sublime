@@ -16,6 +16,9 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 			CLASS_FILE_HEADER : 'js-selectable-text',
 			DATA_CLASS_NAME : 'data',
 
+			LEFT_LINE_HASH_SEPARATOR : "L",
+			RIGHT_LINE_HASH_SEPARATOR : "R",
+
 			/**
 			 * Fet all wrappers for all elements in root.
 			 * @param  {Element} 				rootElement
@@ -81,7 +84,7 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		 * @return {String}
 		 */
 		createLeftLineHash : function (number) {
-			return this.hash + "L" + number;
+			return this._hash + FileElementWrapper.LEFT_LINE_HASH_SEPARATOR + number;
 		},
 
 		/**
@@ -90,7 +93,7 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 		 * @return {String}
 		 */
 		createRightLineHash : function (number) {
-			return this.hash + "R" + number;
+			return this._hash + FileElementWrapper.RIGHT_LINE_HASH_SEPARATOR + number;
 		},
 
 		/**
@@ -104,7 +107,9 @@ define("content/app/github/wrappers/file-element-wrapper", function(require, exp
 			var fullStringPath = fileTextSpan[0].getAttribute("title");
 			this._filePath = new FilePath( fullStringPath );
 
-			// Get DOM name of this file for navigation using location hash
+			// Get DOM name of this file for navigation using location hash.
+			// We are getting previous sibling as it is the one that has name set
+			// for navigation. 
 			var previousSibling = this._domElement.previousElementSibling;
 			this._hash = previousSibling.name;
 
