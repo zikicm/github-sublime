@@ -15,6 +15,15 @@ define("content/app/github/window-helper", function(require, exports, module) {
 		$statics : {
 
 			/**
+			 * Change window location hash.
+			 * Browser will scroll to DOM element by default if hash represents its name.
+			 * @param  {String} hash
+			 */
+			navigateToHash : function (hash) {
+				window.location.hash = "#" + hash;
+			},
+
+			/**
 			 * Get viewport bounding box.
 			 * @return {Box}
 			 */
@@ -59,6 +68,33 @@ define("content/app/github/window-helper", function(require, exports, module) {
 			 */
 			removeChild : function (child) {
 				document.body.removeChild(child);
+			},
+
+			/**
+			 * Create DOM element.
+			 * @param  {String} 	type        	Element type.
+			 * @param  {String} 	className   	Class name.
+			 * @param  {Box} 		boundingBox 	Bounding box of new created element.
+			 * @return {Element}
+			 */
+			createElement : function (type, className, boundingBox) {
+				var element = document.createElement(type);
+				element.className = className;
+				element.style.left = boundingBox.left + "px";
+				element.style.top = boundingBox.top + "px";
+				element.style.width = boundingBox.width + "px";
+				element.style.height = boundingBox.height + "px";
+				return element;
+			},
+
+			/**
+			 * Create DIV DOM element.
+			 * @param  {String} 	className   	Class name.
+			 * @param  {Box} 		boundingBox 	Bounding box of new created div.
+			 * @return {Element}
+			 */
+			createDivElement : function (className, boundingBox) {
+				return this.createElement('div', className, boundingBox);
 			},
 
 			/**

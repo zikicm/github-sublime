@@ -107,11 +107,6 @@
 
         "src/content/app/github/window-helper.js",
         "src/content/app/github/wrappers/dom-element-wrapper.js",
-        "src/content/app/github/wrappers/abstract-line-element-wrapper.js",
-        "src/content/app/github/wrappers/expandable-line-element-wrapper.js",
-        "src/content/app/github/wrappers/line-element-wrapper.js",
-        "src/content/app/github/wrappers/line-element-factory.js",
-        "src/content/app/github/wrappers/file-data-element-wrapper.js",
         "src/content/app/github/wrappers/file-element-wrapper.js",
         "src/content/app/github/commit-page-helper.js",
 

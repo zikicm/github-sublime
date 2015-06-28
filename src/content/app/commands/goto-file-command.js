@@ -84,20 +84,11 @@ define("content/app/commands/goto-file-command", function(require, exports, modu
 			
 			var popupEntry = event.data;
 			if (popupEntry) {
-				this._scrollWindowToFile( popupEntry.fileElementWrapper );
+				var hash = popupEntry.fileElementWrapper.hash;
+				WindowHelper.navigateToHash(hash);
 			}
 
 			this._triggerComplete()
-		},
-
-		/**
-		 * Scrolls window to show the provided file wrapper.
-		 * @param  	{FileWrapper} 	fileWrapper		File wrapper to which window should
-		 * 											be scrolled. 
-		 */
-		_scrollWindowToFile : function(fileWrapper) {
-			var fileBox = fileWrapper.boundingBox;
-			WindowHelper.scrollTop( fileBox.top - GotoFileCommand.MARGIN_TOP );
 		},
 
 		/**
