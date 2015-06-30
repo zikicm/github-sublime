@@ -1,8 +1,8 @@
 define("content/app/commands/goto-line-command", function(require, exports, module) {
 
 	// imports
-	var EventDispatcher = require("content/app/events/event-dispatcher");
-	var Event =require("content/app/events/event");
+	var EventDispatcher = require("libs/events/event-dispatcher");
+	var Event =require("libs/events/event");
 	var PopupManager = require("content/app/ui/popup-manager");
 	var GotoLinePopup = require("content/app/ui/popups/goto-line-popup");
 	var AbstractCommand = require("content/app/commands/abstract-command");

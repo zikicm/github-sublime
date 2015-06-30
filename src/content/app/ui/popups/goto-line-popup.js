@@ -4,8 +4,8 @@ define("content/app/ui/popups/goto-line-popup", function(require, exports, modul
 	var constants = require("shared/constants"); 
 	var KeyCodes = constants.KeyCodes;
 	var DomEvents = constants.DomEvents;
-	var Event = require("content/app/events/event");
-	var EventDispatcher = require("content/app/events/event-dispatcher");
+	var Event = require("libs/events/event");
+	var EventDispatcher = require("libs/events/event-dispatcher");
 	var AbstractPopup = require("content/app/ui/popups/abstract-popup");
 
 	/**

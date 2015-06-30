@@ -1,7 +1,7 @@
 define("content/app/ui/popups/abstract-popup", function(require, exports, module) {
 
 	// imports
-	var EventDispatcher = require("content/app/events/event-dispatcher");
+	var EventDispatcher = require("libs/events/event-dispatcher");
 
 	/**
 	 * Abstract popup defines popup interface and provides ui container.
