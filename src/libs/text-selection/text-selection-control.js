@@ -10,6 +10,14 @@ define("libs/text-selection/text-selection-control", function(require, exports, 
 	 */
 	var TextSelectionControl = Class(EventDispatcher, {
 
+		$statics : {
+
+			MOUSE_UP : "mouseup",
+			MOUSE_OUT : "mouseout",
+			KEY_UP : "keyup",
+
+		},
+
 		/**
 		 * Helper constructor.
 		 */
@@ -22,9 +30,9 @@ define("libs/text-selection/text-selection-control", function(require, exports, 
 			this._onMouseOutHandler = this._onMouseOut.bind(this);
 			this._onKeyUpHandler = this._onKeyUp.bind(this);
 
-			document.addEventListener("mouseup", this._onMouseUpHandler);
-			document.addEventListener("mouseout", this._onMouseOutHandler);
-			document.addEventListener("keyup", this._onKeyUpHandler);
+			document.addEventListener(TextSelectionControl.MOUSE_UP, this._onMouseUpHandler);
+			document.addEventListener(TextSelectionControl.MOUSE_OUT, this._onMouseOutHandler);
+			document.addEventListener(TextSelectionControl.KEY_UP, this._onKeyUpHandler);
 		},
 
 		/**

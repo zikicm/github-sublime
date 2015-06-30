@@ -68,7 +68,7 @@ define("content/app/commands/highlight-text-command", function(require, exports,
 
 					// Check if selected word real word in container
 					if (containerWords.indexOf(rangeText) !== -1) {
-						this._highlightText(textSelection.startRange.toString());
+						this._highlightText(rangeText);
 					}
 
 				}
